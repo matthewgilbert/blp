@@ -1,0 +1,48 @@
+name: Create Release
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag, e.g. 0.0.1'
+        required: true
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          environment-file: environment.yml
+          activate-environment: blp-dev
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+      - name: Environment setup
+        run: |
+          gem install github_changelog_generator
+          git config --global user.email "2401026+matthewgilbert@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+      - name: Version bump and tag
+        run: |
+          echo "Creating release for ${{ github.event.inputs.version }}"
+          echo "__version__ = \"${{ github.event.inputs.version }}\"" > src/blp/__init__.py
+          git add src/blp/__init__.py
+          git commit -m "RLS: Update version for upcoming release ${{ github.event.inputs.version }}"
+          git tag -a "v${{ github.event.inputs.version }}" -m "Version ${{ github.event.inputs.version }}"
+          git push && git push --tags
+      - name: Build and commit CHANGELOG
+        run: |
+          github_changelog_generator -u matthewgilbert -p blp --token ${{ secrets.GITHUB_TOKEN }}
+          git add CHANGELOG.md
+          git commit -m "RLS: Create CHANGELOG for release ${{ github.event.inputs.version }}"
+          git push
+      - name: Build package
+        run: python -m build --sdist --wheel --outdir dist/
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+          repository_url: https://test.pypi.org/legacy/
+          verbose: true

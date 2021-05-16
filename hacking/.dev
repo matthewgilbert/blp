@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+ROOT_DIR="$(dirname "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")")"
+
+conda activate blp-dev
+export PYTHONPATH="${ROOT_DIR}/src:${PYTHONPATH}"
+export PATH="${ROOT_DIR}/hacking:${PATH}"

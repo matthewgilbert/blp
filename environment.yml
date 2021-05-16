@@ -1,0 +1,28 @@
+name: blp-dev
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - black
+  - blpapi
+  - ipython
+  - jupyter
+  - jupytext
+  - mypy
+  - nbsphinx
+  - numpy
+  - pandas
+  - pip
+  - pytest
+  - pytest-black
+  - pytest-flakes
+  - pytest-mock
+  - pytest-mypy
+  - sphinx
+  - pip:
+      - build
+      - pytest-isort
+      - pytest-pycodestyle
+      - pytest-pydocstyle
+      - setuptools
+      - wheel

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -e
+
+mode=${1:-dryrun}
+
+if [[ "${mode}" ==  "rm" ]]
+then
+  find . \
+    -type f -name '*.py[co]' -delete -o \
+    -type d -name __pycache__ -delete
+else
+  find . \
+    -type f -name '*.py[co]' -o \
+    -type d -name __pycache__
+fi

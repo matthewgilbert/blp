@@ -1,0 +1,44 @@
+name: Test Suite
+on: [push]
+jobs:
+  unittests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          environment-file: environment.yml
+          activate-environment: blp-dev
+      - name: Conda info
+        run: conda info && conda list
+      - run: pytest
+  doc-build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          environment-file: environment.yml
+          activate-environment: blp-dev
+      - name: Build docs
+        run: cd doc && make html
+  package-build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          environment-file: environment.yml
+          activate-environment: blp-dev
+      - name: Build package
+        run: python -m build --sdist --wheel --outdir dist/
+

@@ -1,0 +1,8 @@
+[tool.black]
+line-length = 120
+[tool.pytest.ini_options]
+addopts = "--pycodestyle --flakes --mypy --isort --black --doctest-modules -m 'not bbg'"
+markers = """
+bbg: Run tests requiring a Bloomberg connection
+"""
+testpaths = "src"

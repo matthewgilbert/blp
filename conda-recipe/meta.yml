@@ -1,0 +1,38 @@
+{% set name = "blp" %}
+{% set version = "0.0.1" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/b/blp/blp-{{ version }}.tar.gz
+  sha256: 
+
+build:
+  number: 1
+  script: python -m pip install --no-deps --ignore-installed .
+  noarch: python
+
+requirements:
+  host:
+    - pip
+    - python
+  run:
+    - pandas
+    - python
+    - blpapi
+
+test:
+    imports:
+        - blp
+
+about:
+  home: https://github.com/matthewgilbert/blp
+  license: Apache License, Version 2.0
+  license_file: LICENSE
+  summary: 'Pythonic interface to Bloomberg Open API'
+
+extra:
+  recipe-maintainers:
+    - matthewgilbert

@@ -1,0 +1,32 @@
+name: Release Docs
+on:
+  workflow_dispatch:
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          environment-file: environment.yml
+          activate-environment: blp-dev
+      - name: Environment setup
+        run: |
+          git config --global user.email "2401026+matthewgilbert@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+      - name: Build docs
+        run: cd doc && make html
+      - name: Commit docs
+        run: |
+          git checkout gh-pages
+          rm -rf docs && mkdir docs && cp -r doc/build/html/* docs/
+          touch docs/.nojekyll
+          git add docs/* && git add docs
+          git commit -m "ENH: Release new docs"
+          git push
