@@ -26,8 +26,8 @@ conda install -c conda-forge blp
 # Getting Started
 
 Reading the docs is the best way to get started, take a look at
-[Quickstart](https://matthewgilbert.github.io/blp/usage/quickstart.html) or if you are having issues
-[Troubleshooting](https://matthewgilbert.github.io/blp/usage/quickstart.html#Troubleshooting) 
+[Quickstart](https://matthewgilbert.github.io/blp/quickstart.html) or if you are having issues
+[Troubleshooting](https://matthewgilbert.github.io/blp/quickstart.html#Troubleshooting) 
 
 # Contributing
 
