@@ -924,7 +924,13 @@ class BlpQuery(BlpSession):
 
         """
         query = create_intraday_bar_query(
-            security, event_type, interval, start_datetime, end_datetime, overrides, options,
+            security,
+            event_type,
+            interval,
+            start_datetime,
+            end_datetime,
+            overrides,
+            options,
         )
         res = self.query(query, self.parser, self.collect_to_bdib)
         dfs = []
