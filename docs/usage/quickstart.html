@@ -1,0 +1,1709 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Quickstart &#8212; blp 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="FAQ" href="../faq.html" />
+    <link rel="prev" title="blp.blp module" href="../generated/blp.blp.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<section id="Quickstart">
+<h1>Quickstart<a class="headerlink" href="#Quickstart" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span>
+
+<span class="kn">from</span> <span class="nn">blp</span> <span class="kn">import</span> <span class="n">blp</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">bquery</span> <span class="o">=</span> <span class="n">blp</span><span class="o">.</span><span class="n">BlpQuery</span><span class="p">()</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<section id="Excel-like-functionality">
+<h2>Excel like functionality<a class="headerlink" href="#Excel-like-functionality" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">bquery</span><span class="o">.</span><span class="n">bdh</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;SPY US Equity&quot;</span><span class="p">,</span> <span class="s2">&quot;TLT US Equity&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;PX_LAST&quot;</span><span class="p">,</span> <span class="s2">&quot;VOLUME&quot;</span><span class="p">],</span>
+    <span class="n">start_date</span><span class="o">=</span><span class="s2">&quot;20190101&quot;</span><span class="p">,</span>
+    <span class="n">end_date</span><span class="o">=</span><span class="s2">&quot;20190110&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>security</th>
+      <th>PX_LAST</th>
+      <th>VOLUME</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2019-01-02</td>
+      <td>SPY US Equity</td>
+      <td>250.18</td>
+      <td>126925199.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2019-01-02</td>
+      <td>TLT US Equity</td>
+      <td>122.15</td>
+      <td>19841527.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2019-01-03</td>
+      <td>SPY US Equity</td>
+      <td>244.21</td>
+      <td>144140692.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2019-01-03</td>
+      <td>TLT US Equity</td>
+      <td>123.54</td>
+      <td>21187045.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2019-01-04</td>
+      <td>SPY US Equity</td>
+      <td>252.39</td>
+      <td>142628834.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2019-01-04</td>
+      <td>TLT US Equity</td>
+      <td>122.11</td>
+      <td>12970226.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2019-01-07</td>
+      <td>SPY US Equity</td>
+      <td>254.38</td>
+      <td>103139100.0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2019-01-07</td>
+      <td>TLT US Equity</td>
+      <td>121.75</td>
+      <td>8498104.0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2019-01-08</td>
+      <td>SPY US Equity</td>
+      <td>256.77</td>
+      <td>102512587.0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2019-01-08</td>
+      <td>TLT US Equity</td>
+      <td>121.43</td>
+      <td>7737103.0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2019-01-09</td>
+      <td>SPY US Equity</td>
+      <td>257.97</td>
+      <td>95006554.0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>2019-01-09</td>
+      <td>TLT US Equity</td>
+      <td>121.24</td>
+      <td>9349245.0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>2019-01-10</td>
+      <td>SPY US Equity</td>
+      <td>258.88</td>
+      <td>96823923.0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>2019-01-10</td>
+      <td>TLT US Equity</td>
+      <td>120.46</td>
+      <td>8222860.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">bquery</span><span class="o">.</span><span class="n">bdp</span><span class="p">([</span><span class="s2">&quot;CL1 Comdty&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;NAME&quot;</span><span class="p">,</span> <span class="s2">&quot;PX_LAST&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>security</th>
+      <th>NAME</th>
+      <th>PX_LAST</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>CL1 Comdty</td>
+      <td>Generic 1st 'CL' Future</td>
+      <td>65.37</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">bquery</span><span class="o">.</span><span class="n">bds</span><span class="p">(</span><span class="s2">&quot;BCOM Index&quot;</span><span class="p">,</span> <span class="s2">&quot;INDX_MWEIGHT&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Member Ticker and Exchange Code</th>
+      <th>Percentage Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>BON1</td>
+      <td>4.26</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>C N1</td>
+      <td>6.29</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>CLN1</td>
+      <td>9.04</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>COU1</td>
+      <td>7.40</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>CTN1</td>
+      <td>1.35</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>GCQ1</td>
+      <td>12.17</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>HGN1</td>
+      <td>5.87</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>HON1</td>
+      <td>2.38</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>KCN1</td>
+      <td>2.83</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>KWN1</td>
+      <td>1.49</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>LAN21</td>
+      <td>4.39</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>LCQ1</td>
+      <td>3.43</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>LHN1</td>
+      <td>2.35</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>LNN1</td>
+      <td>2.27</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>LXN1</td>
+      <td>2.85</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>NGN21</td>
+      <td>7.82</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>QSN1</td>
+      <td>2.88</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>S N1</td>
+      <td>5.88</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>SBN1</td>
+      <td>2.81</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>SIN1</td>
+      <td>3.78</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>SMN1</td>
+      <td>3.01</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>W N1</td>
+      <td>2.74</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>XBN1</td>
+      <td>2.69</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<section id="Using-sedols">
+<h3>Using sedols<a class="headerlink" href="#Using-sedols" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">bquery</span><span class="o">.</span><span class="n">bdp</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;SPY US Equity&quot;</span><span class="p">,</span> <span class="s2">&quot;TLT US Equity&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;ID_SEDOL1&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>security</th>
+      <th>ID_SEDOL1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>SPY US Equity</td>
+      <td>2840215</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>TLT US Equity</td>
+      <td>2971546</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">bquery</span><span class="o">.</span><span class="n">bdh</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;/sedol1/2840215&quot;</span><span class="p">,</span> <span class="s2">&quot;/sedol1/2971546&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;PX_LAST&quot;</span><span class="p">,</span> <span class="s2">&quot;VOLUME&quot;</span><span class="p">],</span>
+    <span class="n">start_date</span><span class="o">=</span><span class="s2">&quot;20190101&quot;</span><span class="p">,</span>
+    <span class="n">end_date</span><span class="o">=</span><span class="s2">&quot;20190110&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>security</th>
+      <th>PX_LAST</th>
+      <th>VOLUME</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2019-01-02</td>
+      <td>/sedol1/2840215</td>
+      <td>250.18</td>
+      <td>126925199.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2019-01-02</td>
+      <td>/sedol1/2971546</td>
+      <td>122.15</td>
+      <td>19841527.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2019-01-03</td>
+      <td>/sedol1/2840215</td>
+      <td>244.21</td>
+      <td>144140692.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2019-01-03</td>
+      <td>/sedol1/2971546</td>
+      <td>123.54</td>
+      <td>21187045.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2019-01-04</td>
+      <td>/sedol1/2840215</td>
+      <td>252.39</td>
+      <td>142628834.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2019-01-04</td>
+      <td>/sedol1/2971546</td>
+      <td>122.11</td>
+      <td>12970226.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2019-01-07</td>
+      <td>/sedol1/2840215</td>
+      <td>254.38</td>
+      <td>103139100.0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2019-01-07</td>
+      <td>/sedol1/2971546</td>
+      <td>121.75</td>
+      <td>8498104.0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2019-01-08</td>
+      <td>/sedol1/2840215</td>
+      <td>256.77</td>
+      <td>102512587.0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2019-01-08</td>
+      <td>/sedol1/2971546</td>
+      <td>121.43</td>
+      <td>7737103.0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2019-01-09</td>
+      <td>/sedol1/2840215</td>
+      <td>257.97</td>
+      <td>95006554.0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>2019-01-09</td>
+      <td>/sedol1/2971546</td>
+      <td>121.24</td>
+      <td>9349245.0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>2019-01-10</td>
+      <td>/sedol1/2840215</td>
+      <td>258.88</td>
+      <td>96823923.0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>2019-01-10</td>
+      <td>/sedol1/2971546</td>
+      <td>120.46</td>
+      <td>8222860.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+</section>
+<section id="Troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#Troubleshooting" title="Permalink to this headline">¶</a></h2>
+<p>The most common type of error are errors based on bad input to the underlying <code class="docutils literal notranslate"><span class="pre">blpapi</span></code> service. Since <code class="docutils literal notranslate"><span class="pre">blp</span></code> is simply a wrapper on top of <code class="docutils literal notranslate"><span class="pre">blpapi</span></code>, these errors will be progagated to the user. The easiest way for resolving these is to inspect the relevant error message for any obvious problems followed by contacting the Bloomberg help desk.</p>
+<p>For example, the following code will return an error since it contains an invalid ticker</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bquery</span><span class="o">.</span><span class="n">bdh</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;NOT_A_TICKER US Equity&quot;</span><span class="p">,</span> <span class="s2">&quot;SPY US Equity&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;PX_LAST&quot;</span><span class="p">,</span> <span class="s2">&quot;VOLUME&quot;</span><span class="p">],</span>
+    <span class="n">start_date</span><span class="o">=</span><span class="s2">&quot;20190101&quot;</span><span class="p">,</span>
+    <span class="n">end_date</span><span class="o">=</span><span class="s2">&quot;20190110&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>TypeError: Response for &#39;NOT_A_TICKER US Equity&#39; contains securityError
+{
+    &quot;securityError&quot;: {
+        &quot;source&quot;: &quot;3923::bbdbh4&quot;,
+        &quot;code&quot;: 15,
+        &quot;category&quot;: &quot;BAD_SEC&quot;,
+        &quot;message&quot;: &quot;Unknown/Invalid securityInvalid Security [nid:3923] &quot;,
+        &quot;subcategory&quot;: &quot;INVALID_SECURITY&quot;,
+    }
+}
+</pre></div>
+</div>
+<p>If you want to ignore errors, you can instantiate a parser as follows</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">bquery</span> <span class="o">=</span> <span class="n">blp</span><span class="o">.</span><span class="n">BlpQuery</span><span class="p">(</span><span class="n">parser</span><span class="o">=</span><span class="n">blp</span><span class="o">.</span><span class="n">BlpParser</span><span class="p">(</span><span class="n">raise_security_errors</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="n">bquery</span><span class="o">.</span><span class="n">bdh</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;NOT_A_TICKER US Equity&quot;</span><span class="p">,</span> <span class="s2">&quot;SPY US Equity&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;PX_LAST&quot;</span><span class="p">,</span> <span class="s2">&quot;VOLUME&quot;</span><span class="p">],</span>
+    <span class="n">start_date</span><span class="o">=</span><span class="s2">&quot;20190101&quot;</span><span class="p">,</span>
+    <span class="n">end_date</span><span class="o">=</span><span class="s2">&quot;20190110&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Response for &#39;NOT_A_TICKER US Equity&#39; contains securityError {&#39;securityError&#39;: {&#39;source&#39;: &#39;5681::bbdbh2&#39;, &#39;code&#39;: 15, &#39;category&#39;: &#39;BAD_SEC&#39;, &#39;message&#39;: &#39;Unknown/Invalid securityInvalid Security [nid:5681] &#39;, &#39;subcategory&#39;: &#39;INVALID_SECURITY&#39;}}
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>security</th>
+      <th>PX_LAST</th>
+      <th>VOLUME</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2019-01-02</td>
+      <td>SPY US Equity</td>
+      <td>250.18</td>
+      <td>126925199.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2019-01-03</td>
+      <td>SPY US Equity</td>
+      <td>244.21</td>
+      <td>144140692.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2019-01-04</td>
+      <td>SPY US Equity</td>
+      <td>252.39</td>
+      <td>142628834.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2019-01-07</td>
+      <td>SPY US Equity</td>
+      <td>254.38</td>
+      <td>103139100.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2019-01-08</td>
+      <td>SPY US Equity</td>
+      <td>256.77</td>
+      <td>102512587.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2019-01-09</td>
+      <td>SPY US Equity</td>
+      <td>257.97</td>
+      <td>95006554.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2019-01-10</td>
+      <td>SPY US Equity</td>
+      <td>258.88</td>
+      <td>96823923.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Retrieve-json-data">
+<h2>Retrieve json data<a class="headerlink" href="#Retrieve-json-data" title="Permalink to this headline">¶</a></h2>
+<section id="Query-generation-utility-methods">
+<h3>Query generation utility methods<a class="headerlink" href="#Query-generation-utility-methods" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">query</span> <span class="o">=</span> <span class="n">blp</span><span class="o">.</span><span class="n">create_query</span><span class="p">(</span>
+    <span class="n">request_type</span><span class="o">=</span><span class="s2">&quot;HistoricalDataRequest&quot;</span><span class="p">,</span>
+    <span class="n">values</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;securities&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;SPY US Equity&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;VOLUME&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;startDate&quot;</span><span class="p">:</span> <span class="s2">&quot;20190101&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;endDate&quot;</span><span class="p">:</span> <span class="s2">&quot;20190105&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{
+  &#34;HistoricalDataRequest&#34;: {
+    &#34;securities&#34;: [
+      &#34;SPY US Equity&#34;
+    ],
+    &#34;fields&#34;: [
+      &#34;VOLUME&#34;
+    ],
+    &#34;startDate&#34;: &#34;20190101&#34;,
+    &#34;endDate&#34;: &#34;20190105&#34;
+  }
+}
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># deal with Timestamps for pretty printing for response</span>
+
+<span class="k">def</span> <span class="nf">ts_to_json</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S.</span><span class="si">%f</span><span class="s2">%z&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">time_to_json</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H:%M:%S&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">CustomJSONEncoder</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">ts_to_json</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">time</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">time_to_json</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">default</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">resp</span> <span class="o">=</span> <span class="n">bquery</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">parse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">collector</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">CustomJSONEncoder</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[
+  {
+    &#34;eventType&#34;: 5,
+    &#34;eventTypeName&#34;: &#34;blpapi.Event.RESPONSE&#34;,
+    &#34;messageNumber&#34;: 0,
+    &#34;message&#34;: {
+      &#34;fragmentType&#34;: 0,
+      &#34;correlationIds&#34;: [
+        23
+      ],
+      &#34;messageType&#34;: &#34;HistoricalDataResponse&#34;,
+      &#34;timeReceived&#34;: null,
+      &#34;element&#34;: {
+        &#34;HistoricalDataResponse&#34;: {
+          &#34;securityData&#34;: {
+            &#34;security&#34;: &#34;SPY US Equity&#34;,
+            &#34;eidData&#34;: [],
+            &#34;sequenceNumber&#34;: 0,
+            &#34;fieldExceptions&#34;: [],
+            &#34;fieldData&#34;: [
+              {
+                &#34;fieldData&#34;: {
+                  &#34;date&#34;: &#34;2019-01-02T00:00:00.000000&#34;,
+                  &#34;VOLUME&#34;: 126925199.0
+                }
+              },
+              {
+                &#34;fieldData&#34;: {
+                  &#34;date&#34;: &#34;2019-01-03T00:00:00.000000&#34;,
+                  &#34;VOLUME&#34;: 144140692.0
+                }
+              },
+              {
+                &#34;fieldData&#34;: {
+                  &#34;date&#34;: &#34;2019-01-04T00:00:00.000000&#34;,
+                  &#34;VOLUME&#34;: 142628834.0
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+]
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Support-for-context-manager">
+<h2>Support for context manager<a class="headerlink" href="#Support-for-context-manager" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">with</span> <span class="n">blp</span><span class="o">.</span><span class="n">BlpQuery</span><span class="p">()</span> <span class="k">as</span> <span class="n">bq</span><span class="p">:</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">bq</span><span class="o">.</span><span class="n">bdh</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">&quot;GME US Equity&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;PX_LAST&quot;</span><span class="p">,</span> <span class="s2">&quot;VOLUME&quot;</span><span class="p">],</span>
+        <span class="n">start_date</span><span class="o">=</span><span class="s2">&quot;20210101&quot;</span><span class="p">,</span>
+        <span class="n">end_date</span><span class="o">=</span><span class="s2">&quot;20210130&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>security</th>
+      <th>PX_LAST</th>
+      <th>VOLUME</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2021-01-04</td>
+      <td>GME US Equity</td>
+      <td>17.25</td>
+      <td>10022474.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2021-01-05</td>
+      <td>GME US Equity</td>
+      <td>17.37</td>
+      <td>4961457.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2021-01-06</td>
+      <td>GME US Equity</td>
+      <td>18.36</td>
+      <td>6056248.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2021-01-07</td>
+      <td>GME US Equity</td>
+      <td>18.08</td>
+      <td>6129276.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2021-01-08</td>
+      <td>GME US Equity</td>
+      <td>17.69</td>
+      <td>6481960.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2021-01-11</td>
+      <td>GME US Equity</td>
+      <td>19.94</td>
+      <td>14927612.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2021-01-12</td>
+      <td>GME US Equity</td>
+      <td>19.95</td>
+      <td>7060665.0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2021-01-13</td>
+      <td>GME US Equity</td>
+      <td>31.40</td>
+      <td>144501736.0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2021-01-14</td>
+      <td>GME US Equity</td>
+      <td>39.91</td>
+      <td>93717410.0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2021-01-15</td>
+      <td>GME US Equity</td>
+      <td>35.50</td>
+      <td>46866358.0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2021-01-19</td>
+      <td>GME US Equity</td>
+      <td>39.36</td>
+      <td>74721924.0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>2021-01-20</td>
+      <td>GME US Equity</td>
+      <td>39.12</td>
+      <td>33471789.0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>2021-01-21</td>
+      <td>GME US Equity</td>
+      <td>43.03</td>
+      <td>57079754.0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>2021-01-22</td>
+      <td>GME US Equity</td>
+      <td>65.01</td>
+      <td>197157946.0</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>2021-01-25</td>
+      <td>GME US Equity</td>
+      <td>76.79</td>
+      <td>177874000.0</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>2021-01-26</td>
+      <td>GME US Equity</td>
+      <td>147.98</td>
+      <td>178587974.0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>2021-01-27</td>
+      <td>GME US Equity</td>
+      <td>347.51</td>
+      <td>93396666.0</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>2021-01-28</td>
+      <td>GME US Equity</td>
+      <td>193.60</td>
+      <td>58816595.0</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>2021-01-29</td>
+      <td>GME US Equity</td>
+      <td>325.00</td>
+      <td>50566055.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Stream-data">
+<h2>Stream data<a class="headerlink" href="#Stream-data" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">with</span> <span class="n">blp</span><span class="o">.</span><span class="n">BlpStream</span><span class="p">()</span> <span class="k">as</span> <span class="n">bs</span><span class="p">:</span>
+    <span class="n">bs</span><span class="o">.</span><span class="n">subscribe</span><span class="p">({</span><span class="s2">&quot;USDCAD Curncy&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;LAST_PRICE&quot;</span><span class="p">]}})</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">ev</span> <span class="ow">in</span> <span class="n">bs</span><span class="o">.</span><span class="n">events</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">ev</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">CustomJSONEncoder</span><span class="p">))</span>
+        <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">break</span>
+
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+SESSION_STATUS - Message 0 - SessionConnectionDown = {
+    server = &#34;localhost:8194&#34;
+}
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{
+  &#34;fragmentType&#34;: 0,
+  &#34;correlationIds&#34;: [
+    &#34;USDCAD Curncy&#34;
+  ],
+  &#34;messageType&#34;: &#34;MarketDataEvents&#34;,
+  &#34;timeReceived&#34;: &#34;2021-04-06T01:23:44.286675+0000&#34;,
+  &#34;element&#34;: {
+    &#34;MarketDataEvents&#34;: {
+      &#34;MKTDATA_EVENT_TYPE&#34;: &#34;SUMMARY&#34;,
+      &#34;MKTDATA_EVENT_SUBTYPE&#34;: &#34;INITPAINT&#34;,
+      &#34;BID&#34;: 1.2522,
+      &#34;ASK&#34;: 1.2523,
+      &#34;BEST_BID&#34;: 1.2522,
+      &#34;BEST_ASK&#34;: 1.2523,
+      &#34;BID_ALL_SESSION&#34;: 1.2522,
+      &#34;ASK_ALL_SESSION&#34;: 1.2523,
+      &#34;IND_BID_FLAG&#34;: false,
+      &#34;IND_ASK_FLAG&#34;: false,
+      &#34;BID_TDY&#34;: 1.2522,
+      &#34;PRICE_LAST_BID_RT&#34;: 1.2522,
+      &#34;ASK_TDY&#34;: 1.2523,
+      &#34;PRICE_LAST_ASK_RT&#34;: 1.2523,
+      &#34;BID_DIR&#34;: -1,
+      &#34;ASK_DIR&#34;: 1,
+      &#34;BID2&#34;: 1.2522,
+      &#34;ASK2&#34;: 1.2523,
+      &#34;BID_ALL_SESSION_TDY_RT&#34;: 1.2522,
+      &#34;ASK_ALL_SESSION_TDY_RT&#34;: 1.2523,
+      &#34;CURRENT_SESSION_RT&#34;: 2,
+      &#34;PX_OPEN_ALL_WITH_SWITCHOVER_RT&#34;: 1.2524700164794922,
+      &#34;PX_CLOSE_ALL_WITH_SWITCHOVER_RT&#34;: 1.2525,
+      &#34;LAST_PRICE_ALL_SESSION_DIR_RT&#34;: 1,
+      &#34;SIMP_LAST_PX_ALL_SESS_DIR_RT&#34;: 1,
+      &#34;ID_BB_SEC_NUM_SRC&#34;: 12884922137,
+      &#34;LAST_PRICE&#34;: 1.2523,
+      &#34;LAST2_TRADE&#34;: 1.2523,
+      &#34;HIGH&#34;: 1.2529,
+      &#34;LOW&#34;: 1.2517,
+      &#34;OPEN&#34;: 1.2525,
+      &#34;OPEN_TDY&#34;: 1.2525,
+      &#34;PRICE_OPEN_RT&#34;: 1.2525,
+      &#34;LAST_PRICE_TDY&#34;: 1.2523,
+      &#34;HIGH_TDY&#34;: 1.2529,
+      &#34;PRICE_HIGH_RT&#34;: 1.2529,
+      &#34;LOW_TDY&#34;: 1.2517,
+      &#34;PRICE_LOW_RT&#34;: 1.2517,
+      &#34;MID&#34;: 1.2523,
+      &#34;MID_TDY&#34;: 1.2523,
+      &#34;RT_EXCH_MARKET_STATUS&#34;: &#34;ACTV&#34;,
+      &#34;LAST_ALL_SESSIONS&#34;: 1.2523,
+      &#34;PREV_CLOSE_VALUE_REALTIME&#34;: 1.2525,
+      &#34;TRADING_DT_REALTIME&#34;: &#34;2021-04-06T00:00:00.000000&#34;,
+      &#34;PREV_TRADING_DT_REALTIME&#34;: &#34;2021-04-05T00:00:00.000000&#34;,
+      &#34;PRICE_CHANGE_1Y_NET_RT&#34;: -0.15880000591278076,
+      &#34;PRICE_CHANGE_1Y_PCT_RT&#34;: -11.253999710083008,
+      &#34;CLOSING_PRICE_1Y_AGO_RT&#34;: 1.4111000299453735,
+      &#34;ZERO_BID_PRICE_INDICATOR_RT&#34;: false,
+      &#34;ZERO_ASK_PRICE_INDICATOR_RT&#34;: false,
+      &#34;RT_API_MACHINE&#34;: &#34;apipubx0@md1p-ob-336&#34;,
+      &#34;PX_LOW_BID_RT&#34;: 1.2516002655029297,
+      &#34;PX_HIGH_ASK_RT&#34;: 1.2535302639007568,
+      &#34;PX_HIGH_BID_RT&#34;: 1.252770185470581,
+      &#34;PX_LOW_ASK_RT&#34;: 1.2517499923706055,
+      &#34;ALL_PRICE&#34;: 1.2523,
+      &#34;MID2&#34;: 1.2523,
+      &#34;MID_DIR&#34;: 1,
+      &#34;RT_PRICING_SOURCE&#34;: &#34;BGN&#34;,
+      &#34;ASK_CHANGE&#34;: -0.0007301568984985352,
+      &#34;BID_CHANGE&#34;: 0.00036513805389404297,
+      &#34;SPREAD_BA&#34;: 0.0001,
+      &#34;PRICE_52_WEEK_HIGH_RT&#34;: 1.4265,
+      &#34;PRICE_52_WEEK_HIGH_DATE_RT&#34;: &#34;2020-04-21T00:00:00.000000&#34;,
+      &#34;PRICE_52_WEEK_LOW_RT&#34;: 1.2365,
+      &#34;PRICE_52_WEEK_LOW_DATE_RT&#34;: &#34;2021-03-18T00:00:00.000000&#34;,
+      &#34;PRICE_PREVIOUS_CLOSE_RT&#34;: 1.2525,
+      &#34;PRICE_LAST_RT&#34;: 1.2523,
+      &#34;15_SECOND_PRICE_CHANGE_RT&#34;: 0.0,
+      &#34;1_MINUTE_PRICE_CHANGE_RT&#34;: 0.0,
+      &#34;5_MINUTE_PRICE_CHANGE_RT&#34;: 9.999999747378752e-05,
+      &#34;15_MINUTE_PRICE_CHANGE_RT&#34;: -0.0003000000142492354,
+      &#34;10_MINUTE_PRICE_CHANGE_RT&#34;: 9.999999747378752e-05,
+      &#34;30_MINUTE_PRICE_CHANGE_RT&#34;: -9.999999747378752e-05,
+      &#34;1_HOUR_PRICE_CHANGE_RT&#34;: 0.00019999999494757503,
+      &#34;PREVIOUS_CLOSE_BID_PRICE_RT&#34;: 1.2519,
+      &#34;PREVIOUS_CLOSE_ASK_PRICE_RT&#34;: 1.2531,
+      &#34;LAST_CONTINUOUS_TRADE_PRICE_RT&#34;: 1.2523,
+      &#34;LAST_TRADE_CANCELED_IND_RT&#34;: false,
+      &#34;UNADJUSTED_PREV_LAST_PRICE_RT&#34;: 1.2525,
+      &#34;ADJUSTED_PREV_LAST_PRICE_RT&#34;: 1.2525,
+      &#34;BASE_PRICE_ENABLED_RT&#34;: false,
+      &#34;NUM_TRADES_RT&#34;: 0,
+      &#34;BLOOMBERG_CLOSE_METHOD_RT&#34;: &#34;NA&#34;,
+      &#34;LAST_TICK_DIRECTION_RT&#34;: 0,
+      &#34;CHG_NET_REG_SES_PRV_RG_SES_CL_RT&#34;: -0.00018203258514404297,
+      &#34;CHG_PCT_REG_SES_PRV_RG_SES_CL_RT&#34;: -0.014533800508882894,
+      &#34;SHORTENED_BID_ASK_RT&#34;: &#34;1.2522/23&#34;,
+      &#34;IS_DELAYED_STREAM&#34;: false,
+      &#34;CHG_NET_MTD_RT&#34;: -0.0039,
+      &#34;CHG_PCT_MTD_RT&#34;: -0.3105,
+      &#34;CHG_NET_QTD_RT&#34;: -0.0039,
+      &#34;CHG_PCT_QTD_RT&#34;: -0.3105,
+      &#34;CHG_NET_YTD_RT&#34;: -0.0202,
+      &#34;CHG_PCT_YTD_RT&#34;: -1.5874,
+      &#34;CHG_NET_1M_RT&#34;: -0.0142,
+      &#34;CHG_PCT_1M_RT&#34;: -1.1212,
+      &#34;CHG_NET_3M_RT&#34;: -0.0154,
+      &#34;CHG_PCT_3M_RT&#34;: -1.2148,
+      &#34;REALTIME_2_DAY_CHANGE_NET&#34;: -0.0055,
+      &#34;REALTIME_2_DAY_CHANGE_PERCENT&#34;: -0.4373,
+      &#34;REALTIME_5_DAY_CHANGE_NET&#34;: -0.0111,
+      &#34;REALTIME_5_DAY_CHANGE_PERCENT&#34;: -0.8786,
+      &#34;RT_PX_AS_PCT_INTRADAY_RANGE&#34;: 50.0,
+      &#34;REALTIME_PERCENT_BID_ASK_SPREAD&#34;: 0.007999999999995566,
+      &#34;REALTIME_15_SEC_PRICE_PCT_CHG&#34;: 0.0,
+      &#34;REALTIME_ONE_MIN_PRICE_PCT_CHG&#34;: 0.0,
+      &#34;REALTIME_FIVE_MIN_PRICE_PCT_CHG&#34;: 0.008,
+      &#34;REALTIME_15_MIN_PRICE_PCT_CHG&#34;: -0.024,
+      &#34;REALTIME_ONE_HOUR_PRICE_PCT_CHG&#34;: 0.016,
+      &#34;CHG_NET_1D_ALL_FROM_REGULAR_RT&#34;: -0.0002,
+      &#34;CHG_PCT_1D_ALL_FROM_REGULAR_RT&#34;: -0.016,
+      &#34;PX_CHG_NET_1D_ALL_SWITCHOVER_RT&#34;: -0.0002,
+      &#34;PX_CHG_PCT_1D_ALL_SWITCHOVER_RT&#34;: -0.016,
+      &#34;API_RULES_VERSION&#34;: 201411210,
+      &#34;PREV_SES_LAST_PRICE&#34;: 1.2525,
+      &#34;RT_PX_CHG_NET_1D&#34;: -0.0002,
+      &#34;RT_PX_CHG_PCT_1D&#34;: -0.01600000075995922,
+      &#34;PRICE_CHANGE_ON_DAY_RT&#34;: -0.0002,
+      &#34;NET_CHANGE_ON_DAY_TODAY_RT&#34;: -0.0002,
+      &#34;PERCENT_CHANGE_ON_DAY_TODAY_RT&#34;: -0.016,
+      &#34;LAST_UPDATE_BID_RT&#34;: &#34;09:23:43&#34;,
+      &#34;LAST_UPDATE_ASK_RT&#34;: &#34;09:23:43&#34;,
+      &#34;TIME&#34;: &#34;09:23:43&#34;,
+      &#34;PROXY_TIME_OF_LAST_UPDATE_RT&#34;: null,
+      &#34;BID_ASK_TIME&#34;: &#34;09:23:43&#34;,
+      &#34;SES_START&#34;: &#34;05:00:00&#34;,
+      &#34;SES_END&#34;: &#34;04:59:59&#34;,
+      &#34;PRICE_LAST_TIME_RT&#34;: &#34;09:23:43&#34;,
+      &#34;LAST_BID_TIME_TODAY_REALTIME&#34;: &#34;09:23:43&#34;,
+      &#34;LAST_ASK_TIME_TODAY_REALTIME&#34;: &#34;09:23:43&#34;,
+      &#34;LAST_PRICE_TIME_TODAY_REALTIME&#34;: &#34;09:23:43&#34;,
+      &#34;LAST_UPDATE_ALL_SESSIONS_RT&#34;: &#34;09:23:43&#34;
+    }
+  }
+}
+{
+  &#34;fragmentType&#34;: 0,
+  &#34;correlationIds&#34;: [
+    &#34;USDCAD Curncy&#34;
+  ],
+  &#34;messageType&#34;: &#34;MarketDataEvents&#34;,
+  &#34;timeReceived&#34;: &#34;2021-04-06T01:23:44.312849+0000&#34;,
+  &#34;element&#34;: {
+    &#34;MarketDataEvents&#34;: {
+      &#34;MKTDATA_EVENT_TYPE&#34;: &#34;TRADE&#34;,
+      &#34;MKTDATA_EVENT_SUBTYPE&#34;: &#34;NEW&#34;,
+      &#34;LAST_ALL_SESSIONS&#34;: 1.2523,
+      &#34;LAST2_TRADE&#34;: 1.2523,
+      &#34;LAST_PRICE&#34;: 1.2523,
+      &#34;LAST_PRICE_TDY&#34;: 1.2523,
+      &#34;LAST2_DIR&#34;: null,
+      &#34;LAST_TICK_DIRECTION_RT&#34;: 0,
+      &#34;ALL_PRICE_COND_CODE&#34;: null,
+      &#34;ALL_PRICE&#34;: 1.2523,
+      &#34;LAST_PRICE_COND_CODE_RT&#34;: null,
+      &#34;PRICE_CHANGE_1Y_NET_RT&#34;: -0.15880000591278076,
+      &#34;PRICE_CHANGE_1Y_PCT_RT&#34;: -11.253600120544434,
+      &#34;LAST_CONTINUOUS_TRADE_PRICE_RT&#34;: 1.2523,
+      &#34;PRICE_LAST_RT&#34;: 1.2523,
+      &#34;EVT_TRADE_PRICE_RT&#34;: 1.2523,
+      &#34;EVT_TRADE_SIZE_RT&#34;: 0,
+      &#34;EVT_TRADE_CONDITION_CODE_RT&#34;: null,
+      &#34;EVT_TRADE_SOURCE_TYPE_CODE_RT&#34;: null,
+      &#34;EVT_TRADE_INTEGER_IDENTIFIER_RT&#34;: null,
+      &#34;EVT_TRADE_IDENTIFIER_RT&#34;: null,
+      &#34;EXCH_CODE_LAST_ALL_SESSION_RT&#34;: null,
+      &#34;LOC_SRC_FOR_LST_TRD_ALL_SESS_RT&#34;: null,
+      &#34;CHG_NET_REG_SESSION_CLOSE&#34;: null,
+      &#34;CHG_PCT_REG_SESSION_CLOSE&#34;: null,
+      &#34;CHG_NET_PREV_DAY_POST_CLS&#34;: null,
+      &#34;CHG_PCT_PREV_DAY_POST_CLS&#34;: null,
+      &#34;CHG_NET_1D_PRE_FROM_REGULAR_RT&#34;: null,
+      &#34;CHG_PCT_1D_PRE_FROM_REGULAR_RT&#34;: null,
+      &#34;CHG_NET_1D_ALL_FROM_REGULAR_RT&#34;: -0.0002,
+      &#34;CHG_PCT_1D_ALL_FROM_REGULAR_RT&#34;: -0.016,
+      &#34;CHG_NET_1D_POST_FROM_REGULAR_RT&#34;: null,
+      &#34;CHG_PCT_1D_POST_FROM_REGULAR_RT&#34;: null,
+      &#34;PX_CHG_NET_1D_ALL_SWITCHOVER_RT&#34;: -0.0002,
+      &#34;PX_CHG_PCT_1D_ALL_SWITCHOVER_RT&#34;: -0.016,
+      &#34;CHG_NET_REG_SES_PRV_RG_SES_CL_RT&#34;: -0.0002,
+      &#34;CHG_PCT_REG_SES_PRV_RG_SES_CL_RT&#34;: -0.015968,
+      &#34;CHG_NET_MTD_RT&#34;: -0.0039,
+      &#34;CHG_PCT_MTD_RT&#34;: -0.3105,
+      &#34;CHG_NET_QTD_RT&#34;: -0.0039,
+      &#34;CHG_PCT_QTD_RT&#34;: -0.3105,
+      &#34;CHG_NET_YTD_RT&#34;: -0.0202,
+      &#34;CHG_PCT_YTD_RT&#34;: -1.5874,
+      &#34;CHG_NET_1M_RT&#34;: -0.0142,
+      &#34;CHG_PCT_1M_RT&#34;: -1.1212,
+      &#34;CHG_NET_3M_RT&#34;: -0.0154,
+      &#34;CHG_PCT_3M_RT&#34;: -1.2148,
+      &#34;REALTIME_2_DAY_CHANGE_NET&#34;: -0.0055,
+      &#34;REALTIME_2_DAY_CHANGE_PERCENT&#34;: -0.4373,
+      &#34;REALTIME_5_DAY_CHANGE_NET&#34;: -0.0111,
+      &#34;REALTIME_5_DAY_CHANGE_PERCENT&#34;: -0.8786,
+      &#34;RT_PX_AS_PCT_INTRADAY_RANGE&#34;: 50.0,
+      &#34;REALTIME_PERCENT_BID_ASK_SPREAD&#34;: 0.007999999999995566,
+      &#34;RT_THEORETICAL_PCT_CHG_FROM_LAST&#34;: null,
+      &#34;REALTIME_15_SEC_PRICE_PCT_CHG&#34;: 0.0,
+      &#34;REALTIME_ONE_MIN_PRICE_PCT_CHG&#34;: 0.0,
+      &#34;REALTIME_FIVE_MIN_PRICE_PCT_CHG&#34;: 0.008,
+      &#34;REALTIME_15_MIN_PRICE_PCT_CHG&#34;: -0.024,
+      &#34;REALTIME_ONE_HOUR_PRICE_PCT_CHG&#34;: 0.016,
+      &#34;REALTIME_VOLUME_5_DAY_INTERVAL&#34;: null,
+      &#34;DELTA_AVAT_1_DAY_INTERVAL&#34;: null,
+      &#34;DELTA_AVAT_5_DAY_INTERVAL&#34;: null,
+      &#34;DELTA_AVAT_10_DAY_INTERVAL&#34;: null,
+      &#34;DELTA_AVAT_20_DAY_INTERVAL&#34;: null,
+      &#34;DELTA_AVAT_30_DAY_INTERVAL&#34;: null,
+      &#34;DELTA_AVAT_100_DAY_INTERVAL&#34;: null,
+      &#34;DELTA_AVAT_180_DAY_INTERVAL&#34;: null,
+      &#34;DELTA_ATAT_1_DAY_INTERVAL&#34;: null,
+      &#34;DELTA_ATAT_5_DAY_INTERVAL&#34;: null,
+      &#34;DELTA_ATAT_10_DAY_INTERVAL&#34;: null,
+      &#34;DELTA_ATAT_20_DAY_INTERVAL&#34;: null,
+      &#34;DELTA_ATAT_30_DAY_INTERVAL&#34;: null,
+      &#34;DELTA_ATAT_100_DAY_INTERVAL&#34;: null,
+      &#34;DELTA_ATAT_180_DAY_INTERVAL&#34;: null,
+      &#34;RT_PX_CHG_NET_1D&#34;: -0.0002,
+      &#34;RT_PX_CHG_PCT_1D&#34;: -0.01600000075995922,
+      &#34;PRICE_CHANGE_ON_DAY_RT&#34;: -0.0002,
+      &#34;NET_CHANGE_ON_DAY_TODAY_RT&#34;: -0.0002,
+      &#34;PERCENT_CHANGE_ON_DAY_TODAY_RT&#34;: -0.016,
+      &#34;LAST_UPDATE_CHG_1D_RT&#34;: -0.00019999999494757503,
+      &#34;EVT_TRADE_TIME_RT&#34;: &#34;09:23:44&#34;,
+      &#34;TRADE_UPDATE_STAMP_RT&#34;: &#34;2021-04-06T09:23:44.000000+0800&#34;,
+      &#34;IS_DELAYED_STREAM&#34;: false,
+      &#34;EVT_UPDATE_ACTIONS_RT&#34;: 271,
+      &#34;TIME&#34;: &#34;09:23:44&#34;,
+      &#34;PRICE_LAST_TIME_RT&#34;: &#34;09:23:44&#34;,
+      &#34;LAST_PRICE_TIME_TODAY_REALTIME&#34;: &#34;09:23:44&#34;,
+      &#34;EVENT_TIME&#34;: &#34;09:23:44&#34;,
+      &#34;LAST_UPDATE_ALL_SESSIONS_RT&#34;: &#34;09:23:44&#34;,
+      &#34;BLOOMBERG_SEND_TIME_RT&#34;: &#34;01:23:44&#34;
+    }
+  }
+}
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">blp</a></h1>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=matthewgilbert&repo=blp&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../generated/modules.html">API Documentation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Excel-like-functionality">Excel like functionality</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Using-sedols">Using sedols</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Retrieve-json-data">Retrieve json data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Query-generation-utility-methods">Query generation utility methods</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Support-for-context-manager">Support for context manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Stream-data">Stream data</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../generated/blp.blp.html" title="previous chapter">blp.blp module</a></li>
+      <li>Next: <a href="../faq.html" title="next chapter">FAQ</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Matthew Gilbert.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/usage/quickstart.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+    <a href="https://github.com/matthewgilbert/blp" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>

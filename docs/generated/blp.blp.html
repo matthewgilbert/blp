@@ -1,0 +1,859 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>blp.blp module &#8212; blp 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Quickstart" href="../usage/quickstart.html" />
+    <link rel="prev" title="blp package" href="blp.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-blp.blp">
+<span id="blp-blp-module"></span><h1>blp.blp module<a class="headerlink" href="#module-blp.blp" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="blp.blp.BlpParser">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">blp.blp.</span></span><span class="sig-name descname"><span class="pre">BlpParser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">processor_steps</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raise_security_errors</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#blp.blp.BlpParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A callable class with a default response parsing implementation.</p>
+<p>The parse method parses the responses from BlpQuery.get_response into a simplified representation the can easily
+be collected using collectors in BlpQuery.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>processor_steps</strong> – A list of processors which take in a response and request_data and returns a
+validated and possibly modified response. Processors are called sequentially at the start of parse()</p></li>
+<li><p><strong>raise_security_errors</strong> – If True, raise errors when response contains an INVALID_SECURITY error, otherwise
+log as a warning. This is ignored if <code class="docutils literal notranslate"><span class="pre">processor_steps</span></code> is not None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="blp.blp.BlpQuery">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">blp.blp.</span></span><span class="sig-name descname"><span class="pre">BlpQuery</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'localhost'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">8194</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parser</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_column_map</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#blp.blp.BlpQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#blp.blp.BlpSession" title="blp.blp.BlpSession"><code class="xref py py-class docutils literal notranslate"><span class="pre">blp.blp.BlpSession</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.BlpQuery.bdh">
+<span class="sig-name descname"><span class="pre">bdh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">securities</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overrides</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pandas.core.frame.DataFrame</span><a class="headerlink" href="#blp.blp.BlpQuery.bdh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bloomberg historical data request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>securities</strong> – list of strings of securities</p></li>
+<li><p><strong>fields</strong> – list of strings of fields</p></li>
+<li><p><strong>start_date</strong> – start date as ‘%Y%m%d’</p></li>
+<li><p><strong>end_date</strong> – end date as ‘%Y%m%d’</p></li>
+<li><p><strong>overrides</strong> – List of tuples containing the field to override and its value</p></li>
+<li><p><strong>options</strong> – key value pairs to to set in request</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: A pandas.DataFrame with columns [‘date’, ‘security’, fields[0], …]</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.BlpQuery.bdib">
+<span class="sig-name descname"><span class="pre">bdib</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">security</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_type</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_datetime</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_datetime</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overrides</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pandas.core.frame.DataFrame</span><a class="headerlink" href="#blp.blp.BlpQuery.bdib" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bloomberg intraday bar data request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>security</strong> – Security name</p></li>
+<li><p><strong>event_type</strong> – Event type {TRADE, BID, ASK, BEST_BID, BEST_ASK}</p></li>
+<li><p><strong>interval</strong> – Length in minutes of bars {1,…1440}</p></li>
+<li><p><strong>start_datetime</strong> – UTC datetime as ‘%Y%-m%-dTHH:MM:SS’</p></li>
+<li><p><strong>end_datetime</strong> – UTC datetime as ‘%Y-%m-%dTHH:MM:SS’</p></li>
+<li><p><strong>overrides</strong> – List of tuples containing the field to override and its value</p></li>
+<li><p><strong>options</strong> – Key value pairs to to set in request</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: A pandas.DataFrame where columns are
+[‘time’, open’, ‘high’, ‘low’, ‘close’, ‘volume’, ‘numEvents’, ‘value’] time is UTC and value is the dollar
+volume (I believe)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.BlpQuery.bdit">
+<span class="sig-name descname"><span class="pre">bdit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">security</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_types</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_datetime</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_datetime</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overrides</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pandas.core.frame.DataFrame</span><a class="headerlink" href="#blp.blp.BlpQuery.bdit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bloomberg tick data request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>security</strong> – Security name</p></li>
+<li><p><strong>event_types</strong> – List of event types
+{TRADE, BID, ASK, BID_BEST, ASK_BEST, BID_YIELD, ASK_YIELD, MID_PRICE, AT_TRADE, BEST_BID}</p></li>
+<li><p><strong>start_datetime</strong> – UTC datetime as ‘%Y%-m%-dTHH:MM:SS’</p></li>
+<li><p><strong>end_datetime</strong> – UTC datetime as ‘%Y-%m-%dTHH:MM:SS’</p></li>
+<li><p><strong>overrides</strong> – List of tuples containing the field to override and its value</p></li>
+<li><p><strong>options</strong> – Key value pairs to to set in request</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: A pandas.DataFrame where columns are [‘time’, ‘type’, ‘value’, ‘size’], time is in UTC. Certain options
+may add various columns</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bq</span> <span class="o">=</span> <span class="n">BlpQuery</span><span class="p">()</span><span class="o">.</span><span class="n">start</span><span class="p">()</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">bq</span><span class="o">.</span><span class="n">bdit</span><span class="p">(</span><span class="s1">&#39;USDCAD Curncy&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;TRADE&#39;</span><span class="p">],</span> <span class="s1">&#39;2019-04-23T08:00:00&#39;</span><span class="p">,</span> <span class="s1">&#39;2019-04-23T13:00:00&#39;</span><span class="p">)</span> 
+</pre></div>
+</div>
+<p>Notes: Various options exist to add certain fields, such as (“includeConditionCodes”, True) and
+(“includeExchangeCodes”, True). See Bloomberg Schema for more info.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.BlpQuery.bdp">
+<span class="sig-name descname"><span class="pre">bdp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">securities</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overrides</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pandas.core.frame.DataFrame</span><a class="headerlink" href="#blp.blp.BlpQuery.bdp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bloomberg reference data point request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>securities</strong> – list of strings of securities</p></li>
+<li><p><strong>fields</strong> – list of strings of fields</p></li>
+<li><p><strong>overrides</strong> – list of tuples containing the field to override and its value</p></li>
+<li><p><strong>options</strong> – key value pairs to to set in request</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: A pandas.DataFrame where columns are [‘security’, field[0], …]</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.BlpQuery.bds">
+<span class="sig-name descname"><span class="pre">bds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">security</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overrides</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pandas.core.frame.DataFrame</span><a class="headerlink" href="#blp.blp.BlpQuery.bds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bloomberg reference data set request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>security</strong> – String representing security</p></li>
+<li><p><strong>field</strong> – String representing field</p></li>
+<li><p><strong>overrides</strong> – List of tuples containing the field to override and its value</p></li>
+<li><p><strong>options</strong> – key value pairs to to set in request</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: A pandas.DataFrame where columns are data element names</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.BlpQuery.cast_columns">
+<span class="sig-name descname"><span class="pre">cast_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pandas.core.frame.DataFrame</span><a class="headerlink" href="#blp.blp.BlpQuery.cast_columns" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.BlpQuery.collect_many_to_bds">
+<span class="sig-name descname"><span class="pre">collect_many_to_bds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">responses</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><a class="headerlink" href="#blp.blp.BlpQuery.collect_many_to_bds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collector to nested dictionary of DataFrames.</p>
+<p>Top level keys are securities, next level keys are fields and values are DataFrame in bds() form</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.BlpQuery.collect_to_bdh">
+<span class="sig-name descname"><span class="pre">collect_to_bdh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">responses</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#blp.blp.BlpQuery.collect_to_bdh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collector for bdh().</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.BlpQuery.collect_to_bdib">
+<span class="sig-name descname"><span class="pre">collect_to_bdib</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">responses</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><a class="headerlink" href="#blp.blp.BlpQuery.collect_to_bdib" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collector for bdib().</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.BlpQuery.collect_to_bdit">
+<span class="sig-name descname"><span class="pre">collect_to_bdit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">responses</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><a class="headerlink" href="#blp.blp.BlpQuery.collect_to_bdit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collector for bdit().</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.BlpQuery.collect_to_bdp">
+<span class="sig-name descname"><span class="pre">collect_to_bdp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">responses</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pandas.core.frame.DataFrame</span><a class="headerlink" href="#blp.blp.BlpQuery.collect_to_bdp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collector for bdp().</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.BlpQuery.collect_to_bds">
+<span class="sig-name descname"><span class="pre">collect_to_bds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">responses</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pandas.core.frame.DataFrame</span><a class="headerlink" href="#blp.blp.BlpQuery.collect_to_bds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collector for bds().</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.BlpQuery.create_request">
+<span class="sig-name descname"><span class="pre">create_request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request_data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">blpapi.request.Request</span><a class="headerlink" href="#blp.blp.BlpQuery.create_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a blpapi.Request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request_data</strong> – A dictionary representing a blpapi.Request, specifying both the service and the data</p>
+</dd>
+</dl>
+<p>Returns: blpapi.Request</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bq</span> <span class="o">=</span> <span class="n">BlpQuery</span><span class="p">()</span><span class="o">.</span><span class="n">start</span><span class="p">()</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bq</span><span class="o">.</span><span class="n">create_request</span><span class="p">({</span>
+<span class="gp">... </span> <span class="s1">&#39;HistoricalDataRequest&#39;</span><span class="p">:</span> <span class="p">{</span>
+<span class="gp">... </span>   <span class="s1">&#39;securities&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;CL1 Comdty&#39;</span><span class="p">],</span>
+<span class="gp">... </span>   <span class="s1">&#39;fields&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;PX_LAST&#39;</span><span class="p">],</span>
+<span class="gp">... </span>   <span class="s1">&#39;startDate&#39;</span><span class="p">:</span> <span class="s1">&#39;20190102&#39;</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="s1">&#39;endDate&#39;</span><span class="p">:</span> <span class="s1">&#39;20190102&#39;</span>
+<span class="gp">... </span>  <span class="p">}</span>
+<span class="gp">... </span><span class="p">})</span> 
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.BlpQuery.get_response">
+<span class="sig-name descname"><span class="pre">get_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_queue</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">blpapi.event.EventQueue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Generator</span><a class="headerlink" href="#blp.blp.BlpQuery.get_response" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yield dictionary representation of blpapi.Messages from a blpapi.EventQueue.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_queue</strong> – Queue which contains response</p></li>
+<li><p><strong>timeout</strong> – Milliseconds to wait for service before the blpapi.EventQueue returns a blpapi.Event.TIMEOUT</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: A generator of messages translated into a dictionary representation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.BlpQuery.query">
+<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request_data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parse</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collector</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#blp.blp.BlpQuery.query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Request and parse Bloomberg data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request_data</strong> – A dictionary representing a blpapi.Request, specifying both the service and the data</p></li>
+<li><p><strong>parse</strong> – Callable which takes a dictionary response and request and yields 0 or more values. If None, use
+default parser. If False, do not parse the response</p></li>
+<li><p><strong>collector</strong> – Callable which takes an iterable</p></li>
+<li><p><strong>timeout</strong> – Milliseconds to wait for service before the blpapi.EventQueue returns a blpapi.Event.TIMEOUT</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: A result from collector, if collector=None default is a itertools.chain</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bq</span> <span class="o">=</span> <span class="n">BlpQuery</span><span class="p">()</span><span class="o">.</span><span class="n">start</span><span class="p">()</span> 
+</pre></div>
+</div>
+<p>A historical data request collected into a list</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rd</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span> <span class="s1">&#39;HistoricalDataRequest&#39;</span><span class="p">:</span> <span class="p">{</span>
+<span class="gp">... </span>   <span class="s1">&#39;securities&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;CL1 Comdty&#39;</span><span class="p">],</span>
+<span class="gp">... </span>   <span class="s1">&#39;fields&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;PX_LAST&#39;</span><span class="p">],</span>
+<span class="gp">... </span>   <span class="s1">&#39;startDate&#39;</span><span class="p">:</span> <span class="s1">&#39;20190102&#39;</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="s1">&#39;endDate&#39;</span><span class="p">:</span> <span class="s1">&#39;20190102&#39;</span>
+<span class="gp">... </span>  <span class="p">}</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bq</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">rd</span><span class="p">,</span> <span class="n">collector</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span> 
+<span class="go">[</span>
+<span class="go"> {</span>
+<span class="go">  &#39;security&#39;:&#39;CL1 Comdty&#39;,</span>
+<span class="go">  &#39;fields&#39;:[&#39;PX_LAST&#39;],</span>
+<span class="go">  &#39;data&#39;:[{&#39;date&#39;: Timestamp(&#39;2019-01-02 00:00:00&#39;), &#39;PX_LAST&#39;:46.54}]</span>
+<span class="go"> }</span>
+<span class="go">]</span>
+</pre></div>
+</div>
+<p>A historical data request with no parsing collected into a list</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bq</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">rd</span><span class="p">,</span> <span class="n">collector</span><span class="o">=</span><span class="nb">list</span><span class="p">,</span> <span class="n">parse</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> 
+<span class="go">[</span>
+<span class="go">   {</span>
+<span class="go">      &#39;eventType&#39;:5,</span>
+<span class="go">      &#39;eventTypeName&#39;:&#39;blpapi.Event.RESPONSE&#39;,</span>
+<span class="go">      &#39;messageNumber&#39;:0,</span>
+<span class="go">      &#39;message&#39;:{</span>
+<span class="go">         &#39;fragmentType&#39;:0,</span>
+<span class="go">         &#39;correlationIds&#39;:[8],</span>
+<span class="go">         &#39;messageType&#39;:&#39;HistoricalDataResponse&#39;,</span>
+<span class="go">         &#39;topicName&#39;:&#39;&#39;,</span>
+<span class="go">         &#39;timeReceived&#39;:None,</span>
+<span class="go">         &#39;element&#39;:{</span>
+<span class="go">            &#39;HistoricalDataResponse&#39;:{</span>
+<span class="go">               &#39;securityData&#39;:{</span>
+<span class="go">                  &#39;security&#39;:&#39;CL1 Comdty&#39;,</span>
+<span class="go">                  &#39;eidData&#39;:[],</span>
+<span class="go">                  &#39;sequenceNumber&#39;:0,</span>
+<span class="go">                  &#39;fieldExceptions&#39;:[],</span>
+<span class="go">                  &#39;fieldData&#39;:[{&#39;fieldData&#39;:{&#39;date&#39;: Timestamp(&#39;2019-01-02 00:00:00&#39;),&#39;PX_LAST&#39;:46.54}}]</span>
+<span class="go">               }</span>
+<span class="go">            }</span>
+<span class="go">         }</span>
+<span class="go">      }</span>
+<span class="go">   }</span>
+<span class="go">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.BlpQuery.send_request">
+<span class="sig-name descname"><span class="pre">send_request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">blpapi.request.Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_queue</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">blpapi.event.EventQueue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">blpapi.internals.CorrelationId</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">blpapi.internals.CorrelationId</span><a class="headerlink" href="#blp.blp.BlpQuery.send_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a request who’s data will be populated into data_queue.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> – Request to send</p></li>
+<li><p><strong>data_queue</strong> – Queue which response populates</p></li>
+<li><p><strong>correlation_id</strong> – Id associated with request/response</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: blpapi.CorrelationId associated with the request</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.BlpQuery.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blp.blp.BlpQuery.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the blpapi.Session and open relevant services.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.BlpQuery.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blp.blp.BlpQuery.stop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="blp.blp.BlpSession">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">blp.blp.</span></span><span class="sig-name descname"><span class="pre">BlpSession</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_handler</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#blp.blp.BlpSession" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.BlpSession.authenticate">
+<span class="sig-name descname"><span class="pre">authenticate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#blp.blp.BlpSession.authenticate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Authenticate the blpapi.Session.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>timeout</strong> – Milliseconds to wait for service before the blpapi.EventQueue returns a blpapi.Event.TIMEOUT</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.BlpSession.create_session_options">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">create_session_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">blpapi.sessionoptions.SessionOptions</span><a class="headerlink" href="#blp.blp.BlpSession.create_session_options" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create blpapi.SessionOptions class used in blpapi.Session.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> – Host to connect session on</p></li>
+<li><p><strong>port</strong> – Port to connection session to</p></li>
+<li><p><strong>app</strong> – The app to use for the session identity</p></li>
+<li><p><strong>**kwargs</strong> – Keyword args passed to the blpapi.SessionOpts, if authentication is needed use
+setAuthenticationOptions</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: A blpapi.SessionOptions</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="blp.blp.BlpStream">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">blp.blp.</span></span><span class="sig-name descname"><span class="pre">BlpStream</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'localhost'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">8194</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#blp.blp.BlpStream" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#blp.blp.BlpSession" title="blp.blp.BlpSession"><code class="xref py py-class docutils literal notranslate"><span class="pre">blp.blp.BlpSession</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.BlpStream.dict_to_sub">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">dict_to_sub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_topic</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">blpapi.subscriptionlist.SubscriptionList</span><a class="headerlink" href="#blp.blp.BlpStream.dict_to_sub" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert dictionary to blpapi.SubscriptionList.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sub</strong> – A dictionary containing topics (Bloomberg securities) with nested dictionaries containg optional
+keys ‘fields’, ‘options’, ‘correlationID’.</p></li>
+<li><p><strong>use_topic</strong> (<em>boolean</em>) – Indicate whether to use the topic as the correlationID if None
+(otherwise will be Bloomberg automatically generated)</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: A blpapi.SubscriptionList</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="blp.blp.BlpStream.event_handler">
+<span class="sig-name descname"><span class="pre">event_handler</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="#blp.blp.EventHandler" title="blp.blp.EventHandler"><span class="pre">blp.blp.EventHandler</span></a></em><a class="headerlink" href="#blp.blp.BlpStream.event_handler" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.BlpStream.events">
+<span class="sig-name descname"><span class="pre">events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Generator</span><a class="headerlink" href="#blp.blp.BlpStream.events" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generator of events.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>timeout</strong> – Seconds before getting result from the queue.Queue returns a queue.Empty exception</p>
+</dd>
+</dl>
+<p>Returns: A generator of events</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bs</span> <span class="o">=</span> <span class="n">BlpStream</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">events</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">bs</span><span class="p">:</span> 
+<span class="gp">... </span>  <span class="n">subs</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">subscribe</span><span class="p">({</span><span class="s1">&#39;USDCAD Curncy&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;fields&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;LAST_PRICE&#39;</span><span class="p">]}})</span>
+<span class="gp">... </span>  <span class="k">for</span> <span class="n">ev</span> <span class="ow">in</span> <span class="n">bs</span><span class="o">.</span><span class="n">events</span><span class="p">():</span>
+<span class="gp">... </span>      <span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ev</span><span class="p">)</span>
+<span class="gp">... </span>      <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">events</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span> <span class="k">break</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.BlpStream.resubscribe">
+<span class="sig-name descname"><span class="pre">resubscribe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><a class="headerlink" href="#blp.blp.BlpStream.resubscribe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resubscribe to all instruments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sub</strong> – Dictionary used to build a blpapi.SubscriptionList of subscriptions</p></li>
+<li><p><strong>timeout</strong> – Seconds before getting result from the queue.Queue returns a queue.Empty exception</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: A dictionary where the key is the blpapi.correlationId value and the value is True if successful,
+False if there was an error and a list of invalid fields if there are exceptions</p>
+<p>Notes: The documentation indicates that resubscribing to instruments with invalid correlationIds will be ignored
+however this does not seem to work in practice. All current activate subscriptions must be resubscribed to.
+This may be a quirk of DAPI.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.BlpStream.subscribe">
+<span class="sig-name descname"><span class="pre">subscribe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><a class="headerlink" href="#blp.blp.BlpStream.subscribe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subscribe to instruments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sub</strong> – Dictionary used to build a blpapi.SubscriptionList of subscriptions</p></li>
+<li><p><strong>timeout</strong> – Seconds before getting result from the queue.Queue returns a queue.Empty exception</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: A dictionary where the key is the blpapi.correlationId value
+and the value is True if successful, False if there was an error and
+a list of invalid fields if there are exceptions</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bs</span> <span class="o">=</span> <span class="n">BlpStream</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">bs</span><span class="p">:</span> 
+<span class="gp">... </span>    <span class="n">bs</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
+<span class="gp">... </span>      <span class="p">{</span>
+<span class="gp">... </span>         <span class="s1">&#39;USDCAD Curncy&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;fields&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;LAST_PRICE&#39;</span><span class="p">]},</span>
+<span class="gp">... </span>         <span class="s1">&#39;EURUSD Curncy&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;fields&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;LAST_PRICE&#39;</span><span class="p">,</span> <span class="s1">&#39;BAD_FIELD&#39;</span><span class="p">]},</span>
+<span class="gp">... </span>         <span class="s1">&#39;BAD_TICKER&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;fields&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;LAST_PRICE&#39;</span><span class="p">]}</span>
+<span class="gp">... </span>      <span class="p">}</span>
+<span class="gp">... </span>    <span class="p">)</span>
+<span class="go"> {&#39;USDCAD Curncy&#39;: True, &#39;EURUSD Curncy&#39;: [&#39;BAD_FIELD&#39;], &#39;BAD_TICKER&#39;: False}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.BlpStream.unsubscribe">
+<span class="sig-name descname"><span class="pre">unsubscribe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><a class="headerlink" href="#blp.blp.BlpStream.unsubscribe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unsubscribe from all instruments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sub</strong> – Dictionary used to build a blpapi.SubscriptionList of subscriptions</p></li>
+<li><p><strong>timeout</strong> – Seconds before getting result from the queue.Queue returns a queue.Empty exception</p></li>
+</ul>
+</dd>
+</dl>
+<p>Notes: The documentation is somewhat ambiguous but the docs suggest you can unsubscribe from only some
+subscriptions however this does not seem to work in practice. This may be a quirk of DAPI.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="blp.blp.EventHandler">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">blp.blp.</span></span><span class="sig-name descname"><span class="pre">EventHandler</span></span><a class="headerlink" href="#blp.blp.EventHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A default implementation of an eventHandler used in blpapi.Session.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.EventHandler.marketdata_event">
+<span class="sig-name descname"><span class="pre">marketdata_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#blp.blp.EventHandler.marketdata_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.EventHandler.other_event">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">other_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#blp.blp.EventHandler.other_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.EventHandler.other_message">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">other_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#blp.blp.EventHandler.other_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.EventHandler.session_status_event">
+<span class="sig-name descname"><span class="pre">session_status_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#blp.blp.EventHandler.session_status_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blp.blp.EventHandler.subscription_status_event">
+<span class="sig-name descname"><span class="pre">subscription_status_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#blp.blp.EventHandler.subscription_status_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="blp.blp.create_field_list_query">
+<span class="sig-prename descclassname"><span class="pre">blp.blp.</span></span><span class="sig-name descname"><span class="pre">create_field_list_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_type</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_documentation</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><a class="headerlink" href="#blp.blp.create_field_list_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a FieldListRequest dictionary request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>field_type</strong> – One of {‘All’, ‘Static’, ‘RealTime’}</p></li>
+<li><p><strong>field_documentation</strong> – Return field documentation</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: A dictionary representation of a blpapi.Request</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="blp.blp.create_fills_query">
+<span class="sig-prename descclassname"><span class="pre">blp.blp.</span></span><span class="sig-name descname"><span class="pre">create_fills_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_datetime</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_datetime</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uuids</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><a class="headerlink" href="#blp.blp.create_fills_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a GetFills dictionary request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_datetime</strong> – UTC datetime as ‘%Y%-m%-dTHH:MM:SS’</p></li>
+<li><p><strong>end_datetime</strong> – UTC datetime as ‘%Y-%m-%dTHH:MM:SS’</p></li>
+<li><p><strong>uuids</strong> – List of user uuids to get fills associated with</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: A dictionary representation of a blpapi.Request</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="blp.blp.create_historical_query">
+<span class="sig-prename descclassname"><span class="pre">blp.blp.</span></span><span class="sig-name descname"><span class="pre">create_historical_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">securities</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overrides</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><a class="headerlink" href="#blp.blp.create_historical_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a HistoricalDataRequest dictionary request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>securities</strong> – list of strings of securities</p></li>
+<li><p><strong>fields</strong> – list of strings of fields</p></li>
+<li><p><strong>start_date</strong> – start date as ‘%Y%m%d’</p></li>
+<li><p><strong>end_date</strong> – end date as ‘%Y%m%d’</p></li>
+<li><p><strong>overrides</strong> – List of tuples containing the field to override and its value</p></li>
+<li><p><strong>options</strong> – key value pairs to to set in request</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: A dictionary representation of a blpapi.Request</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="blp.blp.create_instrument_list_query">
+<span class="sig-prename descclassname"><span class="pre">blp.blp.</span></span><span class="sig-name descname"><span class="pre">create_instrument_list_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><a class="headerlink" href="#blp.blp.create_instrument_list_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an instrumentListRequest dictionary request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>values</strong> – Values to set in request</p>
+</dd>
+</dl>
+<p>Returns: A dictionary representation of a blpapi.Request</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="blp.blp.create_intraday_bar_query">
+<span class="sig-prename descclassname"><span class="pre">blp.blp.</span></span><span class="sig-name descname"><span class="pre">create_intraday_bar_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">security</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_type</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_datetime</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_datetime</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overrides</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><a class="headerlink" href="#blp.blp.create_intraday_bar_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an IntradayBarRequest dictionary request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>security</strong> – Security name</p></li>
+<li><p><strong>event_type</strong> – Event type {TRADE, BID, ASK, BEST_BID, BEST_ASK}</p></li>
+<li><p><strong>interval</strong> – Length in minutes of bars {1,…1440}</p></li>
+<li><p><strong>start_datetime</strong> – UTC datetime as ‘%Y%-m%-dTHH:MM:SS’</p></li>
+<li><p><strong>end_datetime</strong> – UTC datetime as ‘%Y-%m-%dTHH:MM:SS’</p></li>
+<li><p><strong>overrides</strong> – List of tuples containing the field to override and its value</p></li>
+<li><p><strong>options</strong> – Key value pairs to to set in request</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: A dictionary representation of a blpapi.Request</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="blp.blp.create_intraday_tick_query">
+<span class="sig-prename descclassname"><span class="pre">blp.blp.</span></span><span class="sig-name descname"><span class="pre">create_intraday_tick_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">security</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_types</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_datetime</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_datetime</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overrides</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><a class="headerlink" href="#blp.blp.create_intraday_tick_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an IntradayTickRequest.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>security</strong> – Security name</p></li>
+<li><p><strong>event_types</strong> – List of event types
+{TRADE, BID, ASK, BID_BEST, ASK_BEST, BID_YIELD, ASK_YIELD, MID_PRICE, AT_TRADE, BEST_BID}</p></li>
+<li><p><strong>start_datetime</strong> – UTC datetime as ‘%Y%-m%-dTHH:MM:SS’</p></li>
+<li><p><strong>end_datetime</strong> – UTC datetime as ‘%Y-%m-%dTHH:MM:SS’</p></li>
+<li><p><strong>overrides</strong> – List of tuples containing the field to override and its value</p></li>
+<li><p><strong>options</strong> – Key value pairs to to set in request</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: A dictionary representation of a blpapi.Request</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="blp.blp.create_query">
+<span class="sig-prename descclassname"><span class="pre">blp.blp.</span></span><span class="sig-name descname"><span class="pre">create_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request_type</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overrides</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><a class="headerlink" href="#blp.blp.create_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a request dictionary used to construct a blpapi.Request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request_type</strong> – Type of request</p></li>
+<li><p><strong>values</strong> – key value pairs to set in the request</p></li>
+<li><p><strong>overrides</strong> – List of tuples containing the field to override and its value</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: A dictionary representation of a blpapi.Request</p>
+<p class="rubric">Examples</p>
+<p>Reference data request</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">create_query</span><span class="p">(</span>
+<span class="gp">... </span>  <span class="s1">&#39;ReferenceDataRequest&#39;</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="p">{</span><span class="s1">&#39;securities&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;CL1 Comdty&#39;</span><span class="p">,</span> <span class="s1">&#39;CO1 Comdty&#39;</span><span class="p">],</span> <span class="s1">&#39;fields&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;PX_LAST&#39;</span><span class="p">]}</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="go">{&#39;ReferenceDataRequest&#39;: {&#39;securities&#39;: [&#39;CL1 Comdty&#39;, &#39;CO1 Comdty&#39;], &#39;fields&#39;: [&#39;PX_LAST&#39;]}}</span>
+</pre></div>
+</div>
+<p>Reference data request with overrides</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">create_query</span><span class="p">(</span>
+<span class="gp">... </span>  <span class="s1">&#39;ReferenceDataRequest&#39;</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="p">{</span><span class="s1">&#39;securities&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;AUD Curncy&#39;</span><span class="p">],</span> <span class="s1">&#39;fields&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;SETTLE_DT&#39;</span><span class="p">]},</span>
+<span class="gp">... </span>  <span class="p">[(</span><span class="s1">&#39;REFERENCE_DATE&#39;</span><span class="p">,</span> <span class="s1">&#39;20180101&#39;</span><span class="p">)]</span>
+<span class="gp">... </span><span class="p">)</span>  <span class="c1"># noqa: E501</span>
+<span class="go">{&#39;ReferenceDataRequest&#39;: {&#39;securities&#39;: [&#39;AUD Curncy&#39;], &#39;fields&#39;: [&#39;SETTLE_DT&#39;], &#39;overrides&#39;: [{&#39;overrides&#39;: {&#39;fieldId&#39;: &#39;REFERENCE_DATE&#39;, &#39;value&#39;: &#39;20180101&#39;}}]}}</span>
+</pre></div>
+</div>
+<p>Historical data request</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">create_query</span><span class="p">(</span>
+<span class="gp">... </span>  <span class="s1">&#39;HistoricalDataRequest&#39;</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="p">{</span>
+<span class="gp">... </span>   <span class="s1">&#39;securities&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;CL1 Comdty&#39;</span><span class="p">],</span>
+<span class="gp">... </span>   <span class="s1">&#39;fields&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;PX_LAST&#39;</span><span class="p">,</span> <span class="s1">&#39;VOLUME&#39;</span><span class="p">],</span>
+<span class="gp">... </span>   <span class="s1">&#39;startDate&#39;</span><span class="p">:</span> <span class="s1">&#39;20190101&#39;</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="s1">&#39;endDate&#39;</span><span class="p">:</span> <span class="s1">&#39;20190110&#39;</span>
+<span class="gp">... </span>  <span class="p">}</span>
+<span class="gp">... </span><span class="p">)</span>  <span class="c1"># noqa: E501</span>
+<span class="go">{&#39;HistoricalDataRequest&#39;: {&#39;securities&#39;: [&#39;CL1 Comdty&#39;], &#39;fields&#39;: [&#39;PX_LAST&#39;, &#39;VOLUME&#39;], &#39;startDate&#39;: &#39;20190101&#39;, &#39;endDate&#39;: &#39;20190110&#39;}}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="blp.blp.create_reference_query">
+<span class="sig-prename descclassname"><span class="pre">blp.blp.</span></span><span class="sig-name descname"><span class="pre">create_reference_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">securities</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overrides</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><a class="headerlink" href="#blp.blp.create_reference_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a ReferenceDataRequest dictionary request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>securities</strong> – list of strings of securities</p></li>
+<li><p><strong>fields</strong> – list of strings of fields</p></li>
+<li><p><strong>overrides</strong> – List of tuples containing the field to override and its value</p></li>
+<li><p><strong>options</strong> – key value pairs to to set in request</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: A dictionary representation of a blpapi.Request</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="blp.blp.datetime_converter">
+<span class="sig-prename descclassname"><span class="pre">blp.blp.</span></span><span class="sig-name descname"><span class="pre">datetime_converter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">datetime.date</span><span class="p"><span class="pre">,</span> </span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pandas._libs.tslibs.timestamps.Timestamp</span><a class="headerlink" href="#blp.blp.datetime_converter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="blp.blp.dict_to_req">
+<span class="sig-prename descclassname"><span class="pre">blp.blp.</span></span><span class="sig-name descname"><span class="pre">dict_to_req</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">blpapi.request.Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request_data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">blpapi.request.Request</span><a class="headerlink" href="#blp.blp.dict_to_req" title="Permalink to this definition">¶</a></dt>
+<dd><p>Populate request with data from request_data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> – Request to populate</p></li>
+<li><p><strong>request_data</strong> – Data used for populating the request</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: A blpapi.Request</p>
+<p>Notes: An example request data dictionary is</p>
+<blockquote>
+<div><dl class="simple">
+<dt>rdata = {‘fields’: [‘SETTLE_DT’], ‘securities’: [‘AUD Curncy’],</dt><dd><p>‘overrides’: [{‘overrides’: {‘fieldId’: ‘REFERENCE_DATE’, ‘value’: ‘20180101’}}]}</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="blp.blp.element_to_dict">
+<span class="sig-prename descclassname"><span class="pre">blp.blp.</span></span><span class="sig-name descname"><span class="pre">element_to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elem</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">blpapi.element.Element</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><a class="headerlink" href="#blp.blp.element_to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a blpapi.Element to an equivalent dictionary representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>elem</strong> – A blpapi.Element</p>
+</dd>
+</dl>
+<p>Returns: A dictionary representation of blpapi.Element</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="blp.blp.element_to_value">
+<span class="sig-prename descclassname"><span class="pre">blp.blp.</span></span><span class="sig-name descname"><span class="pre">element_to_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elem</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">blpapi.element.Element</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas._libs.tslibs.timestamps.Timestamp</span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">numbers.Number</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#blp.blp.element_to_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a blpapi.Element to its value defined in its datatype with some possible coercisions.</p>
+<p>datetime.datetime -&gt; pandas.Timestamp
+datetime.date -&gt; pandas.Timestamp
+blp.name.Name -&gt; str
+null value -&gt; None
+ValueError Exception -&gt; None</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>elem</strong> – Element to convert</p>
+</dd>
+</dl>
+<p>Returns: A value</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="blp.blp.message_to_dict">
+<span class="sig-prename descclassname"><span class="pre">blp.blp.</span></span><span class="sig-name descname"><span class="pre">message_to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">blpapi.message.Message</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><a class="headerlink" href="#blp.blp.message_to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a blpapi.Message to a dictionary representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>msg</strong> – A blpapi.Message</p>
+</dd>
+</dl>
+<p>Returns: A dictionary with relevant message metadata and data</p>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">blp</a></h1>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=matthewgilbert&repo=blp&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="blp.html">blp package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="blp.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">blp.blp module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blp.html#module-blp">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">blp</a><ul>
+  <li><a href="blp.html">blp package</a><ul>
+      <li>Previous: <a href="blp.html" title="previous chapter">blp package</a></li>
+      <li>Next: <a href="../usage/quickstart.html" title="next chapter">Quickstart</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Matthew Gilbert.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/generated/blp.blp.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+    <a href="https://github.com/matthewgilbert/blp" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>
