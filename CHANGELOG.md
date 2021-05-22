@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.0.1](https://github.com/matthewgilbert/blp/tree/v0.0.1) (2021-05-22)
+
+[Full Changelog](https://github.com/matthewgilbert/blp/compare/v0.0.1-alpha3...v0.0.1)
+
 ## [v0.0.1-alpha3](https://github.com/matthewgilbert/blp/tree/v0.0.1-alpha3) (2021-05-22)
 
 [Full Changelog](https://github.com/matthewgilbert/blp/compare/v0.0.1-alpha2...v0.0.1-alpha3)
