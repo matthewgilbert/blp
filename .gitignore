@@ -4,3 +4,7 @@ __pycache__
 doc/build
 doc/source/generated
 TODO
+
+src/blp.egg-info/
+build/
+dist/
