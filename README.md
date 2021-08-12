@@ -2,6 +2,7 @@
 [![Conda](https://img.shields.io/conda/v/conda-forge/blp)](https://anaconda.org/conda-forge/blp)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5187880.svg)](https://doi.org/10.5281/zenodo.5187880)
 
 # About
 

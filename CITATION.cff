@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Gilbert"
+  given-names: "Matthew"
+  orcid: "https://orcid.org/0000-0002-5094-6940"
+title: "blp: Pythonic interface for Bloomberg Open API"
+version: 0.0.1
+doi: 10.5281/zenodo.5187880
+date-released: 2021-08-12
+url: "https://github.com/matthewgilbert/blp"
