@@ -19,6 +19,7 @@ dependencies:
   - pytest-mock
   - pytest-mypy
   - sphinx
+  - types-pytz
   - pip:
       - build
       - pytest-isort
