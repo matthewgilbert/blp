@@ -8,7 +8,7 @@ import numpy
 import pandas
 import pytest
 import pytz
-from pandas import Timestamp as ts
+from pandas import Timestamp as TS
 from pandas.testing import assert_frame_equal, assert_series_equal
 
 from blp import blp
@@ -460,28 +460,28 @@ def historical_response():
                             "fieldData": [
                                 {
                                     "fieldData": {
-                                        "date": ts("2018-01-02 00:00:00"),
+                                        "date": TS("2018-01-02 00:00:00"),
                                         "PX_LAST": 268.77,
                                         "PX_VOLUME": 86655749.0,
                                     }
                                 },
                                 {
                                     "fieldData": {
-                                        "date": ts("2018-01-03 00:00:00"),
+                                        "date": TS("2018-01-03 00:00:00"),
                                         "PX_LAST": 270.47,
                                         "PX_VOLUME": 90070416.0,
                                     }
                                 },
                                 {
                                     "fieldData": {
-                                        "date": ts("2018-01-04 00:00:00"),
+                                        "date": TS("2018-01-04 00:00:00"),
                                         "PX_LAST": 271.61,
                                         "PX_VOLUME": 80636408.0,
                                     }
                                 },
                                 {
                                     "fieldData": {
-                                        "date": ts("2018-01-05 00:00:00"),
+                                        "date": TS("2018-01-05 00:00:00"),
                                         "PX_LAST": 273.42,
                                         "PX_VOLUME": 83523995.0,
                                     }
@@ -511,28 +511,28 @@ def historical_response():
                             "fieldData": [
                                 {
                                     "fieldData": {
-                                        "date": ts("2018-01-02 00:00:00"),
+                                        "date": TS("2018-01-02 00:00:00"),
                                         "PX_LAST": 154.25,
                                         "PX_VOLUME": 4202503.0,
                                     }
                                 },
                                 {
                                     "fieldData": {
-                                        "date": ts("2018-01-03 00:00:00"),
+                                        "date": TS("2018-01-03 00:00:00"),
                                         "PX_LAST": 158.49,
                                         "PX_VOLUME": 9441567.0,
                                     }
                                 },
                                 {
                                     "fieldData": {
-                                        "date": ts("2018-01-04 00:00:00"),
+                                        "date": TS("2018-01-04 00:00:00"),
                                         "PX_LAST": 161.7,
                                         "PX_VOLUME": 7556249.0,
                                     }
                                 },
                                 {
                                     "fieldData": {
-                                        "date": ts("2018-01-05 00:00:00"),
+                                        "date": TS("2018-01-05 00:00:00"),
                                         "PX_LAST": 162.49,
                                         "PX_VOLUME": 5195764.0,
                                     }
@@ -1253,8 +1253,8 @@ def mock_non_applicable_field_one_valid_hist():
                             "sequenceNumber": 0,
                             "fieldExceptions": [],
                             "fieldData": [
-                                {"fieldData": {"date": ts("2018-01-05 00:00:00"), "PX_LAST": 419515.0}},
-                                {"fieldData": {"date": ts("2018-01-12 00:00:00"), "PX_LAST": 412654.0}},
+                                {"fieldData": {"date": TS("2018-01-05 00:00:00"), "PX_LAST": 419515.0}},
+                                {"fieldData": {"date": TS("2018-01-12 00:00:00"), "PX_LAST": 412654.0}},
                             ],
                         }
                     }
@@ -1364,8 +1364,8 @@ def mock_valid_eco_hist():
                             "sequenceNumber": 0,
                             "fieldExceptions": [],
                             "fieldData": [
-                                {"fieldData": {"date": ts("2018-01-05 00:00:00"), "PX_LAST": 419515.0}},
-                                {"fieldData": {"date": ts("2018-01-12 00:00:00"), "PX_LAST": 412654.0}},
+                                {"fieldData": {"date": TS("2018-01-05 00:00:00"), "PX_LAST": 419515.0}},
+                                {"fieldData": {"date": TS("2018-01-12 00:00:00"), "PX_LAST": 412654.0}},
                             ],
                         }
                     }
@@ -1465,8 +1465,8 @@ def parser_parse_historical():
                             "sequenceNumber": 0,
                             "fieldExceptions": [],
                             "fieldData": [
-                                {"fieldData": {"date": ts("2018-01-02 00:00:00"), "PX_LAST": 268.77}},
-                                {"fieldData": {"date": ts("2018-01-03 00:00:00"), "PX_LAST": 270.47}},
+                                {"fieldData": {"date": TS("2018-01-02 00:00:00"), "PX_LAST": 268.77}},
+                                {"fieldData": {"date": TS("2018-01-03 00:00:00"), "PX_LAST": 270.47}},
                             ],
                         }
                     }
@@ -1478,7 +1478,7 @@ def parser_parse_historical():
         {
             "security": "SPY US Equity",
             "fields": ["PX_LAST"],
-            "data": [{"date": ts(2018, 1, 2), "PX_LAST": 268.77}, {"date": ts(2018, 1, 3), "PX_LAST": 270.47}],
+            "data": [{"date": TS(2018, 1, 2), "PX_LAST": 268.77}, {"date": TS(2018, 1, 3), "PX_LAST": 270.47}],
         }
     ]
     parse_steps = None
@@ -1511,7 +1511,7 @@ def parser_parse_multi_historical():
                             "eidData": [],
                             "sequenceNumber": 0,
                             "fieldExceptions": [],
-                            "fieldData": [{"fieldData": {"date": ts("2018-01-03 00:00:00"), "PX_LAST": 270.47}}],
+                            "fieldData": [{"fieldData": {"date": TS("2018-01-03 00:00:00"), "PX_LAST": 270.47}}],
                         }
                     }
                 },
@@ -1533,7 +1533,7 @@ def parser_parse_multi_historical():
                             "eidData": [],
                             "sequenceNumber": 1,
                             "fieldExceptions": [],
-                            "fieldData": [{"fieldData": {"date": ts("2018-01-03 00:00:00"), "PX_LAST": 126.09}}],
+                            "fieldData": [{"fieldData": {"date": TS("2018-01-03 00:00:00"), "PX_LAST": 126.09}}],
                         }
                     }
                 },
@@ -1541,8 +1541,8 @@ def parser_parse_multi_historical():
         },
     ]
     parsed = [
-        {"security": "SPY US Equity", "fields": ["PX_LAST"], "data": [{"date": ts(2018, 1, 3), "PX_LAST": 270.47}]},
-        {"security": "TLT US Equity", "fields": ["PX_LAST"], "data": [{"date": ts(2018, 1, 3), "PX_LAST": 126.09}]},
+        {"security": "SPY US Equity", "fields": ["PX_LAST"], "data": [{"date": TS(2018, 1, 3), "PX_LAST": 270.47}]},
+        {"security": "TLT US Equity", "fields": ["PX_LAST"], "data": [{"date": TS(2018, 1, 3), "PX_LAST": 126.09}]},
     ]
     parse_steps = None
     return parse_steps, request, response, parsed
@@ -2099,7 +2099,7 @@ def parser_parse_intraday_bar():
                             "barTickData": [
                                 {
                                     "barTickData": {
-                                        "time": ts("2019-04-24 08:00:00"),
+                                        "time": TS("2019-04-24 08:00:00"),
                                         "open": 65.85,
                                         "high": 65.89,
                                         "low": 65.85,
@@ -2111,7 +2111,7 @@ def parser_parse_intraday_bar():
                                 },
                                 {
                                     "barTickData": {
-                                        "time": ts("2019-04-24 08:01:00"),
+                                        "time": TS("2019-04-24 08:01:00"),
                                         "open": 65.87,
                                         "high": 65.87,
                                         "low": 65.83,
@@ -2133,7 +2133,7 @@ def parser_parse_intraday_bar():
             "security": "CL1 Comdty",
             "data": [
                 {
-                    "time": ts("2019-04-24 08:00:00"),
+                    "time": TS("2019-04-24 08:00:00"),
                     "open": 65.85,
                     "high": 65.89,
                     "low": 65.85,
@@ -2143,7 +2143,7 @@ def parser_parse_intraday_bar():
                     "value": 37215.16,
                 },
                 {
-                    "time": ts("2019-04-24 08:01:00"),
+                    "time": TS("2019-04-24 08:01:00"),
                     "open": 65.87,
                     "high": 65.87,
                     "low": 65.83,
@@ -2186,7 +2186,7 @@ def parser_parse_intraday_tick():
                             "tickData": [
                                 {
                                     "tickData": {
-                                        "time": ts("2019-04-24 08:00:00"),
+                                        "time": TS("2019-04-24 08:00:00"),
                                         "type": "TRADE",
                                         "value": 65.85,
                                         "size": 4,
@@ -2194,7 +2194,7 @@ def parser_parse_intraday_tick():
                                 },  # noqa: E501
                                 {
                                     "tickData": {
-                                        "time": ts("2019-04-24 08:00:00"),
+                                        "time": TS("2019-04-24 08:00:00"),
                                         "type": "TRADE",
                                         "value": 65.85,
                                         "size": 2,
@@ -2211,8 +2211,8 @@ def parser_parse_intraday_tick():
         {
             "security": "CL1 Comdty",
             "data": [
-                {"time": ts("2019-04-24 08:00:00"), "type": "TRADE", "value": 65.85, "size": 4},
-                {"time": ts("2019-04-24 08:00:00"), "type": "TRADE", "value": 65.85, "size": 2},
+                {"time": TS("2019-04-24 08:00:00"), "type": "TRADE", "value": 65.85, "size": 4},
+                {"time": TS("2019-04-24 08:00:00"), "type": "TRADE", "value": 65.85, "size": 2},
             ],
             "events": ["TRADE"],
         }
@@ -2247,7 +2247,7 @@ def parser_parse_intraday_tick_multi():
                             "tickData": [
                                 {
                                     "tickData": {
-                                        "time": ts("2019-04-24 08:00:00"),
+                                        "time": TS("2019-04-24 08:00:00"),
                                         "type": "BID",
                                         "value": 65.85,
                                         "size": 4,
@@ -2255,7 +2255,7 @@ def parser_parse_intraday_tick_multi():
                                 },
                                 {
                                     "tickData": {
-                                        "time": ts("2019-04-24 08:00:00"),
+                                        "time": TS("2019-04-24 08:00:00"),
                                         "type": "BID",
                                         "value": 65.85,
                                         "size": 9,
@@ -2263,7 +2263,7 @@ def parser_parse_intraday_tick_multi():
                                 },
                                 {
                                     "tickData": {
-                                        "time": ts("2019-04-24 08:00:00"),
+                                        "time": TS("2019-04-24 08:00:00"),
                                         "type": "ASK",
                                         "value": 65.86,
                                         "size": 50,
@@ -2280,9 +2280,9 @@ def parser_parse_intraday_tick_multi():
         {
             "security": "CL1 Comdty",
             "data": [
-                {"time": ts("2019-04-24 08:00:00"), "type": "BID", "value": 65.85, "size": 4},
-                {"time": ts("2019-04-24 08:00:00"), "type": "BID", "value": 65.85, "size": 9},
-                {"time": ts("2019-04-24 08:00:00"), "type": "ASK", "value": 65.86, "size": 50},
+                {"time": TS("2019-04-24 08:00:00"), "type": "BID", "value": 65.85, "size": 4},
+                {"time": TS("2019-04-24 08:00:00"), "type": "BID", "value": 65.85, "size": 9},
+                {"time": TS("2019-04-24 08:00:00"), "type": "ASK", "value": 65.86, "size": 50},
             ],
             "events": ["BID", "ASK"],
         }
@@ -2478,7 +2478,7 @@ def test_collectors(parsed_data, collector, exp_res):
 def test_bdh(bquery):
     df = bquery.bdh(["SPY US Equity"], ["PX_VOLUME"], start_date="20180102", end_date="20180103")
     df_expect = pandas.DataFrame(
-        [(ts(2018, 1, 2), "SPY US Equity", 86655749.0), (ts(2018, 1, 3), "SPY US Equity", 90070416.0)],
+        [(TS(2018, 1, 2), "SPY US Equity", 86655749.0), (TS(2018, 1, 3), "SPY US Equity", 90070416.0)],
         columns=["date", "security", "PX_VOLUME"],
     )
     assert_frame_equal(df, df_expect)
@@ -2496,7 +2496,7 @@ def test_bdh_infer():
         end_date="20180103",
     )
     df_expect = pandas.DataFrame(
-        [(ts(2018, 1, 2), "SPY US Equity", 268.77), (ts(2018, 1, 3), "SPY US Equity", 270.47)],
+        [(TS(2018, 1, 2), "SPY US Equity", 268.77), (TS(2018, 1, 3), "SPY US Equity", 270.47)],
         columns=["date", "security", "PX_LAST_ACTUAL"],
     )
     assert_frame_equal(df, df_expect)
@@ -2517,7 +2517,7 @@ def test_bdh_coerce_none():
     )
     dtypes = {"PX_VOLUME": numpy.dtype("float64")}
     df_expect = pandas.DataFrame(
-        [(ts(2018, 1, 5), "DOESCRUD Index", None, 419515.0)],
+        [(TS(2018, 1, 5), "DOESCRUD Index", None, 419515.0)],
         columns=["date", "security", "PX_VOLUME", "PX_LAST"],
     ).astype(dtypes)
     assert_frame_equal(df, df_expect)
