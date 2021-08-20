@@ -6,9 +6,9 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.10.2
+#       jupytext_version: 1.11.4
 #   kernelspec:
-#     display_name: Python 3
+#     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 # ---
@@ -43,6 +43,24 @@ bquery.bdp(["CL1 Comdty"], ["NAME", "PX_LAST"])
 
 # %%
 bquery.bds("BCOM Index", "INDX_MWEIGHT")
+
+# %% [markdown]
+# ### Using overrides
+#
+# Various fields can be overriden. For info on what fields support what overrides, the best place to check is using
+# `FLDS` from the terminal
+
+# %%
+pandas.concat(
+    [
+        bquery.bdp(["IBM US Equity"], ["CRNCY_ADJ_PX_LAST"]),
+        bquery.bdp(
+            ["IBM US Equity"], ["CRNCY_ADJ_PX_LAST"], overrides=[("EQY_FUND_CRNCY", "EUR")]
+        )
+    ],
+    axis=1,
+    keys=["default", "override"]
+)
 
 # %% [markdown]
 # ### Using sedols
