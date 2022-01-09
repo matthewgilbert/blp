@@ -60,7 +60,13 @@ class MockBlpQuery(blp.BlpQuery):
     }
 
     def __init__(
-        self, host="localhost", port=8194, timeout=10000, parser=None, cache_data=None, **kwargs,
+        self,
+        host="localhost",
+        port=8194,
+        timeout=10000,
+        parser=None,
+        cache_data=None,
+        **kwargs,
     ):
         self._cache = cache_data
         super().__init__(host=host, port=port, timeout=timeout, parser=parser, **kwargs)
@@ -192,7 +198,8 @@ def assert_info_equal(data, exp_data, ignore_overrides=True):
             d["message"]["element"]["fieldResponse"], key=lambda x: x["fieldData"]["id"]
         )
         ed["message"]["element"]["fieldResponse"] = sorted(
-            ed["message"]["element"]["fieldResponse"], key=lambda x: x["fieldData"]["id"],
+            ed["message"]["element"]["fieldResponse"],
+            key=lambda x: x["fieldData"]["id"],
         )
         if ignore_overrides:
             for di in [d, ed]:
@@ -2485,7 +2492,12 @@ def test_bdh_infer():
     host = HOST
     port = PORT
     bquery = blp.BlpQuery(host, port, timeout=QUERY_TIMEOUT, field_column_map={}).start()
-    df = bquery.bdh(["SPY US Equity"], ["PX_LAST_ACTUAL"], start_date="20180102", end_date="20180103",)
+    df = bquery.bdh(
+        ["SPY US Equity"],
+        ["PX_LAST_ACTUAL"],
+        start_date="20180102",
+        end_date="20180103",
+    )
     df_expect = pandas.DataFrame(
         [(TS(2018, 1, 2), "SPY US Equity", 268.77), (TS(2018, 1, 3), "SPY US Equity", 270.47)],
         columns=["date", "security", "PX_LAST_ACTUAL"],
@@ -2500,10 +2512,16 @@ def test_bdh_coerce_none():
     bquery = blp.BlpQuery(
         host, port, timeout=QUERY_TIMEOUT, field_column_map={"PX_VOLUME": lambda x: pandas.Series(x, dtype="float64")}
     ).start()
-    df = bquery.bdh(["DOESCRUD Index"], ["PX_VOLUME", "PX_LAST"], start_date="20180105", end_date="20180105",)
+    df = bquery.bdh(
+        ["DOESCRUD Index"],
+        ["PX_VOLUME", "PX_LAST"],
+        start_date="20180105",
+        end_date="20180105",
+    )
     dtypes = {"PX_VOLUME": numpy.dtype("float64")}
     df_expect = pandas.DataFrame(
-        [(TS(2018, 1, 5), "DOESCRUD Index", None, 419515.0)], columns=["date", "security", "PX_VOLUME", "PX_LAST"],
+        [(TS(2018, 1, 5), "DOESCRUD Index", None, 419515.0)],
+        columns=["date", "security", "PX_VOLUME", "PX_LAST"],
     ).astype(dtypes)
     assert_frame_equal(df, df_expect)
 
@@ -2535,7 +2553,8 @@ def test_bdp_not_applicable(bquery):
     df = bquery.bdp(["RSF82 Comdty", "PLG18 Comdty"], ["ID_EXCH_SYMBOL"])
     dtypes = {"security": numpy.dtype("O"), "ID_EXCH_SYMBOL": numpy.dtype("O")}
     df_expect = pandas.DataFrame(
-        [["RSF82 Comdty", None], ["PLG18 Comdty", "PL"]], columns=["security", "ID_EXCH_SYMBOL"],
+        [["RSF82 Comdty", None], ["PLG18 Comdty", "PL"]],
+        columns=["security", "ID_EXCH_SYMBOL"],
     ).astype(dtypes)
     assert_frame_equal(df, df_expect)
 
@@ -2591,7 +2610,12 @@ def bdit_params():
         "ids": ["bdit", "bdit_with_condition_codes"],
         "argvalues": [
             ("CL1 Comdty", ["TRADE"], None, dtype_expect),
-            ("CL1 Comdty", ["TRADE"], [("includeConditionCodes", True)], dtype_expect_cc,),
+            (
+                "CL1 Comdty",
+                ["TRADE"],
+                [("includeConditionCodes", True)],
+                dtype_expect_cc,
+            ),
         ],
     }
 
@@ -2624,7 +2648,11 @@ def test_create_historical_query():
         }
     }
     res = blp.create_historical_query(
-        ["SPY US Equity"], ["PX_LAST"], "20190101", "20190110", options=[("periodicitySelection", "DAILY")],
+        ["SPY US Equity"],
+        ["PX_LAST"],
+        "20190101",
+        "20190110",
+        options=[("periodicitySelection", "DAILY")],
     )
     assert res == exp_res
 
