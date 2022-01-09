@@ -2448,19 +2448,22 @@ def collector_params():
             "INDX_MWEIGHT_HIST": pandas.DataFrame({"Index Member": ["BON9", "C N9"], "Percent Weight": [2.89, 5.32]})
         }
     }
+    # test for https://github.com/matthewgilbert/blp/pull/8
+    bulk_reference_parsed_data_empty = [
+        {"security": "TRAD3 BZ Equity", "fields": ["DVD_HIST_ALL"], "data": {"DVD_HIST_ALL": None}}
+    ]
+    bulk_reference_empty_collected_exp = {"TRAD3 BZ Equity": {}}
+
     return {
-        "ids": ["collect_many_to_bds_single_bulk", "collect_many_to_bds_with_multi_bulk"],
+        "ids": [
+            "collect_many_to_bds_single_bulk",
+            "collect_many_to_bds_with_multi_bulk",
+            "collect_many_empty_to_bds_single_bulk",
+        ],
         "argvalues": [
-            (
-                bulk_reference_parsed_data,
-                blp.BlpQuery().collect_many_to_bds,
-                bulk_reference_collected_exp,
-            ),
-            (
-                bulk_reference_parsed_data_multi,
-                blp.BlpQuery().collect_many_to_bds,
-                bulk_reference_collected_multi_exp,
-            ),
+            (bulk_reference_parsed_data, blp.BlpQuery().collect_many_to_bds, bulk_reference_collected_exp),
+            (bulk_reference_parsed_data_multi, blp.BlpQuery().collect_many_to_bds, bulk_reference_collected_multi_exp),
+            (bulk_reference_parsed_data_empty, blp.BlpQuery().collect_many_to_bds, bulk_reference_empty_collected_exp),
         ],
     }
 
