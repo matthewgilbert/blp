@@ -886,9 +886,10 @@ class BlpQuery(BlpSession):
             sec_dict = res.get(security, {})
             for field in response["data"]:
                 data = response["data"][field]
-                rows = sec_dict.get(field, [])
-                rows.extend(data)
-                sec_dict[field] = rows
+                if data:
+                    rows = sec_dict.get(field, [])
+                    rows.extend(data)
+                    sec_dict[field] = rows
             res[security] = sec_dict
         for s in res:
             for f in res[s]:
