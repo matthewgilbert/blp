@@ -3,7 +3,7 @@
 For questions related to querying Bloomberg data and usage of the underlying blpapi library please contact Bloomberg
 support.
 
-<--
+-->
 
 #### Code Sample, a copy-pastable example if possible
 
