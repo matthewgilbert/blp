@@ -1,5 +1,26 @@
 # Changelog
 
+## [v0.0.2](https://github.com/matthewgilbert/blp/tree/v0.0.2) (2023-02-11)
+
+[Full Changelog](https://github.com/matthewgilbert/blp/compare/v0.0.1...v0.0.2)
+
+**Implemented enhancements:**
+
+- //blp/mktbar enhancement [\#21](https://github.com/matthewgilbert/blp/issues/21)
+
+**Closed issues:**
+
+- blp api access without subscription? [\#11](https://github.com/matthewgilbert/blp/issues/11)
+- Data Limits [\#10](https://github.com/matthewgilbert/blp/issues/10)
+- file handlers // connection leak [\#6](https://github.com/matthewgilbert/blp/issues/6)
+- How do I get B-PIPE to work ? [\#5](https://github.com/matthewgilbert/blp/issues/5)
+
+**Merged pull requests:**
+
+- mktbar feature [\#22](https://github.com/matthewgilbert/blp/pull/22) ([obronco](https://github.com/obronco))
+- Bds bug [\#9](https://github.com/matthewgilbert/blp/pull/9) ([matthewgilbert](https://github.com/matthewgilbert))
+- collect\_many\_bds empty data [\#8](https://github.com/matthewgilbert/blp/pull/8) ([rafaelelter](https://github.com/rafaelelter))
+
 ## [v0.0.1](https://github.com/matthewgilbert/blp/tree/v0.0.1) (2021-05-22)
 
 [Full Changelog](https://github.com/matthewgilbert/blp/compare/v0.0.1-alpha3...v0.0.1)
