@@ -38,7 +38,11 @@ _TOKEN_SUCCESS = blpapi.Name("TokenGenerationSuccess")
 _TOKEN_FAILURE = blpapi.Name("TokenGenerationFailure")
 _SESSION_TERMINATED = blpapi.Name("SessionTerminated")
 _SESSION_DOWN = blpapi.Name("SessionConnectionDown")
-_MARKET_DATA_EVENTS = blpapi.Name("MarketDataEvents")
+_MARKET_DATA_EVENTS = [
+    blpapi.Name("MarketDataEvents"),
+    blpapi.Name("MarketBarStart"),
+    blpapi.Name("MarketBarUpdate")
+]
 
 logger = logging.getLogger(__name__)
 
@@ -333,7 +337,7 @@ class EventHandler:
     def marketdata_event(self, event):
         event_name = _EVENT_DICT[event.eventType()]
         for n, msg in enumerate(event):
-            if msg.messageType() == _MARKET_DATA_EVENTS:
+            if msg.messageType() in _MARKET_DATA_EVENTS:
                 self.data_queue.put(message_to_dict(msg))
             else:
                 self.other_message(event_name, n, msg)
