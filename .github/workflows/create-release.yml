@@ -20,7 +20,7 @@ jobs:
           activate-environment: blp-dev
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6
+          ruby-version: 3.0
       - name: Environment setup
         run: |
           gem install github_changelog_generator
