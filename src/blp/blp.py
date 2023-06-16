@@ -489,6 +489,7 @@ class BlpQuery(BlpSession):
         "ReferenceDataRequest": "//blp/refdata",
         "IntradayTickRequest": "//blp/refdata",
         "IntradayBarRequest": "//blp/refdata",
+        "BeqsRequest": "//blp/refdata",
         "FieldInfoRequest": "//blp/apiflds",
         "FieldListRequest": "//blp/apiflds",
         "instrumentListRequest": "//blp/instruments",
@@ -802,6 +803,45 @@ class BlpQuery(BlpSession):
                 dfs[sec] = df_list[0]
 
         return dfs
+    
+    def beqs(
+        self,
+        screen_name: str,
+        screen_type: str = "PRIVATE",
+        overrides: Optional[Sequence] = None,
+        options: Optional[Dict] = None,
+    ) -> pandas.DataFrame:
+        """ Bloomberg equity screening request.
+
+        Args:
+            screen_name: name of the screen
+            screen_type: type of screen, either 'PRIVATE' or 'GLOBAL'
+            overrides: List of tuples containing the field to override and its value
+            options: key value pairs to to set in request
+        
+        Returns: A pandas.DataFrame with columns ['security', eqs_data[0], ...]
+        """
+        query = create_eqs_query(screen_name, screen_type, overrides, options)
+        df = self.query(query, self.parser, self.collect_to_beqs)
+        columns = ["security"] + sorted([col for col in df.columns if col != "security"])
+        df = df.sort_values("security")\
+            .reset_index(drop=True)\
+            .loc[:, columns]\
+            .drop(['Ticker'], axis=1) # Ticker = security
+        return df
+
+    def collect_to_beqs(self, responses: Iterable) -> pandas.DataFrame:
+        """Collector for beqs()."""
+        rows = []
+        fields = {"security"}
+        for response in responses:
+            data = response["data"]
+            # possible some fields are missing for different securities
+            fields = fields.union(set(response["fields"]))
+            data["security"] = response["security"]
+            rows.append(data)
+        df = pandas.DataFrame(rows)
+        return self.cast_columns(df, fields)
 
     def bdp(
         self,
@@ -1070,6 +1110,7 @@ class BlpParser:
             "ReferenceDataResponse",
             "HistoricalDataResponse",
             "IntradayBarResponse",
+            "BeqsResponse",
             "IntradayTickResponse",
             "fieldResponse",
             "InstrumentListResponse",
@@ -1093,6 +1134,7 @@ class BlpParser:
         if rtype in (
             "IntradayBarResponse",
             "IntradayTickResponse",
+            "BeqsResponse",
             "fieldResponse",
             "InstrumentListResponse",
             "GetFillsResponse",
@@ -1135,6 +1177,7 @@ class BlpParser:
         if rtype in (
             "IntradayBarResponse",
             "IntradayTickResponse",
+            "BeqsResponse",
             "fieldResponse",
             "InstrumentListResponse",
             "GetFillsResponse",
@@ -1155,6 +1198,7 @@ class BlpParser:
         if rtype in (
             "IntradayBarResponse",
             "IntradayTickResponse",
+            "BeqsResponse",
             "fieldResponse",
             "InstrumentListResponse",
             "GetFillsResponse",
@@ -1293,6 +1337,8 @@ class BlpParser:
             sec_data_parser = self._parse_bar_security_data
         elif rtype == "IntradayTickResponse":
             sec_data_parser = self._parse_tick_security_data
+        elif rtype == "BeqsResponse":
+            sec_data_parser = self._parse_equity_screening_data
         elif rtype == "fieldResponse":
             sec_data_parser = self._parse_field_info_data
         elif rtype == "InstrumentListResponse":
@@ -1305,6 +1351,7 @@ class BlpParser:
                 "HistoricalDataResponse",
                 "IntradayBarResponse",
                 "IntradayTickResponse",
+                "BeqsResponse",
                 "fieldResponse",
                 "InstrumentListResponse",
                 "GetFillsResponse",
@@ -1387,6 +1434,20 @@ class BlpParser:
             "events": request_data[req_type]["eventTypes"],
         }
         yield result
+
+    @staticmethod
+    def _parse_equity_screening_data(response, _):
+        rtype = list(response["message"]["element"].keys())[0]
+        response_data = response["message"]["element"][rtype]['data']
+        fields = list(response_data["fieldDisplayUnits"]["fieldDisplayUnits"].keys())
+
+        for sec_data in response_data["securityData"]:
+            result = {
+                "security": sec_data["securityData"]["security"],
+                "fields": fields,
+                "data": sec_data["securityData"]["fieldData"]["fieldData"],
+            }
+            yield result
 
     @staticmethod
     def _parse_field_info_data(response, request_data):
@@ -1472,6 +1533,29 @@ def create_query(request_type: str, values: Dict, overrides: Optional[Sequence] 
         request_dict[request_type]["overrides"] = ovrds
     return request_dict
 
+def create_eqs_query(
+    screen_name: str,
+    screen_type: str = "PRIVATE",
+    overrides: Optional[Sequence] = None,
+    options: Optional[Dict] = None,
+) -> Dict:
+    """Create a BeqsRequest dictionary request.
+
+    Args:
+        screen_name: name of the screen
+        screen_type: type of screen; either PRIVATE or GLOBAL
+        overrides: List of tuples containing the field to override and its value
+        options: key value pairs to to set in request
+
+    Returns: A dictionary representation of a blpapi.Request
+    """
+    values = {
+        "screenName": screen_name,
+        "screenType": screen_type,
+    }
+    if options:
+        values.update(options)
+    return create_query("BeqsRequest", values, overrides)
 
 def create_historical_query(
     securities: Union[str, Sequence[str]],
