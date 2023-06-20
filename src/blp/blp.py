@@ -819,9 +819,9 @@ class BlpQuery(BlpSession):
         """
         query = create_eqs_query(screen_name, screen_type, overrides, options)
         df = self.query(query, self.parser, self.collect_to_beqs)
-        columns = ["security"] + sorted([col for col in df.columns if col != "security"])
+        columns = ["security"] + [col for col in df.columns if col != "security"]
         df = (
-            df.sort_values("security").reset_index(drop=True).loc[:, columns].drop(["Ticker"], axis=1)
+            df.sort_values("security").reset_index(drop=True).loc[:, columns]
         )  # Ticker = security
         return df
 
