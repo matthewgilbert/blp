@@ -1,3 +1,4 @@
+#%%
 import datetime
 import itertools
 import logging
@@ -5,6 +6,7 @@ import queue
 import threading
 from numbers import Number
 from typing import Any, Callable, Dict, Generator, Iterable, List, Optional, Sequence, Union
+import json
 
 import blpapi
 import pandas
@@ -490,6 +492,7 @@ class BlpQuery(BlpSession):
         "FieldListRequest": "//blp/apiflds",
         "instrumentListRequest": "//blp/instruments",
         "GetFills": "//blp/emsx.history",
+        "sendQuery": "//blp/bqlsvc",
     }
 
     def __init__(
@@ -837,6 +840,35 @@ class BlpQuery(BlpSession):
             rows.append(data)
         df = pandas.DataFrame(rows)
         return self.cast_columns(df, fields)
+    
+    def bql(
+        self,
+        expression: str,
+    ):
+        """Bloomberg query language request.
+
+        Args:
+            expression: BQL expression
+
+        Returns: A pandas.DataFrame with columns ['security', eqs_data[0], ...]
+        """
+        query = create_bql_query(expression)
+        df = self.query(query, False, self.collect_to_bql)
+
+
+    def collect_to_bql(self, responses: Iterable) -> pandas.DataFrame:
+        """Collector for bql()."""
+        res = list(responses)
+        rows = []
+        fields = {"security"}
+        for response in responses:
+            data = response["data"]
+            # possible some fields are missing for different securities
+            fields = fields.union(set(response["fields"]))
+            data["security"] = response["security"]
+            rows.append(data)
+        df = pandas.DataFrame(rows)
+        return self.cast_columns(df, fields)
 
     def bdp(
         self,
@@ -1091,6 +1123,33 @@ class BlpParser:
                 self._process_field_exception,
             ]
         self._processor_steps = processor_steps
+
+    @staticmethod
+    def _clean_bql_response(response, _):
+        """
+        The purpose of this method is to standardize a BQL (Bloomberg Query Language) response. 
+        BQL responses differ from standard responses, hence the need for cleanup to make them more consistent.
+        """
+        
+        # Rename 'eventTypeName' to 'eventType' for consistency with other response types.
+        response["eventType"] = response["eventTypeName"]
+        del response["eventTypeName"]
+
+        aux = json.loads(response["message"]["element"])
+
+        # BQL responses represent error differently. In standard responses, an error is present only if 
+        # 'responseError' is in response["message"]["element"][rtype]. In BQL responses, an error is not present 
+        # if 'responseExceptions' is an empty list. To standardize this, we move 'responseExceptions' to 
+        # 'responseError' if 'responseExceptions' is not empty.
+        if aux["responseExceptions"]:
+            aux["responseError"] = aux["responseExceptions"][0]["message"]
+            del aux["responseExceptions"]
+
+        # In standard responses, the response type is present in list(response["message"]["element"].keys())[0]. 
+        # Since BQL does not return a response type as a key, we manually add 'BQLResponse' as the response type.
+        response["message"]["element"] = {'BQLResponse': aux}
+
+        return response
 
     @staticmethod
     def _validate_event(response, _):
@@ -1528,6 +1587,18 @@ def create_query(request_type: str, values: Dict, overrides: Optional[Sequence] 
         request_dict[request_type]["overrides"] = ovrds
     return request_dict
 
+def create_bql_query(
+    expression: str, 
+) -> Dict:
+    """Create a sendQuery dictionary request.
+
+    Args:
+        expression: BQL query string
+
+    Returns: A dictionary representation of a blpapi.Request
+    """
+    return create_query("sendQuery", {"expression": expression})
+
 
 def create_eqs_query(
     screen_name: str,
@@ -1726,3 +1797,77 @@ def create_instrument_list_query(values: Optional[Dict] = None) -> Dict:
     """
     values = values or {}
     return create_query("instrumentListRequest", values)
+
+#%%
+#query = create_query("sendQuery", {"expression": "get( PX_LAST(start = -3D), CUR_MKT_CAP, PX_TO_BOOK_RATIO ) for( ['IBM US Equity', 'AAPL US Equity', 'AZUL4 BZ Equity'] )"})
+#query = create_query("sendQuery", {"expression": "get( id(), px_last(start=-3D) ) for( members('IBOV Index') )"})
+query = create_query("sendQuery", {"expression": "get( px_last() ) for( 'AZUL4 BZ Equity' )"})
+#query = create_query("sendQuery", {"expression": "BQL()"})
+
+bquery = BlpQuery().start()
+
+parser = BlpParser(processor_steps = [BlpParser._clean_bql_response, BlpParser._validate_event, BlpParser._validate_response_error])
+
+res2 = bquery.query(query, parse=parser, collector=list)
+
+#%%
+a = json.loads(res2[0]['message']['element'])
+a['results'] = None
+
+# %%
+print(query)
+print()
+res
+
+# %%
+import json
+
+result = res[0]['message']['element']
+
+result = json.loads(result)
+
+final_result = result['results']
+
+# %%
+import json
+
+bquery = BlpQuery().start()
+
+query = create_query(
+    "sendQuery", 
+    {"expression": "BQL(get( PX_LAST(start = -3D), CUR_MKT_CAP, PX_TO_BOOK_RATIO ) for( ['IBM US Equity', 'AAPL US Equity', 'AZUL4 BZ Equity'] ))"}
+)
+
+res = bquery.query(query, parse=False, collector=list)
+
+result = json.loads(res[0]['message']['element'])['results']
+
+data = []
+for field in result.values():
+    # ID column may be a security ticker
+    aux_dict = {    
+        "field": field['name'],
+        "id": field['idColumn']['values'],
+        "value": field['valuesColumn']['values']
+    }
+
+    # Secondary columns may be DATE or CURRENCY, for example
+    for secondary_column in field['secondaryColumns']:
+        aux_dict[secondary_column['name']] = secondary_column['values']
+
+    df = pandas.DataFrame(aux_dict)
+
+    # Since we have multiple secondary columns, we need to melt the dataframe
+    id_vars = ['field', 'id', 'value']
+    df = df.melt(
+        id_vars=id_vars, value_vars=df.columns.difference(id_vars), 
+        var_name="secondary_name", value_name="secondary_value"
+    ).dropna(subset=["value"])
+    
+    column_order = ['secondary_name', 'secondary_value', 'field', 'id', 'value']
+    df = df[column_order]
+
+    data.append(df)
+
+final_df = pandas.concat(data)
+# %%
