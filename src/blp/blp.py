@@ -844,30 +844,54 @@ class BlpQuery(BlpSession):
     def bql(
         self,
         expression: str,
-    ):
+        overrides: Optional[Sequence] = None,
+        options: Optional[Dict] = None,
+    ) -> pandas.DataFrame:
         """Bloomberg query language request.
 
         Args:
             expression: BQL expression
+            overrides: List of tuples containing the field to override and its value
+            options: key value pairs to to set in request
 
-        Returns: A pandas.DataFrame with columns ['security', eqs_data[0], ...]
+        Returns: A pandas.DataFrame with columns ['field', 'id', 'value']
         """
-        query = create_bql_query(expression)
-        df = self.query(query, False, self.collect_to_bql)
+        query = create_bql_query(expression, overrides, options)
+
+        bql_parser = BlpParser(
+            processor_steps = [
+                BlpParser._clean_bql_response, 
+                BlpParser._validate_event, 
+                BlpParser._validate_response_error
+            ]
+        )
+
+        df = self.query(query, bql_parser, self.collect_to_bql)
+
+        return df
 
 
     def collect_to_bql(self, responses: Iterable) -> pandas.DataFrame:
         """Collector for bql()."""
-        res = list(responses)
-        rows = []
-        fields = {"security"}
-        for response in responses:
-            data = response["data"]
-            # possible some fields are missing for different securities
-            fields = fields.union(set(response["fields"]))
-            data["security"] = response["security"]
-            rows.append(data)
-        df = pandas.DataFrame(rows)
+        data = []
+        fields = {'field', 'id', 'value'}
+        for field in responses:
+            field_df = pandas.DataFrame(field)
+
+            # Since we have multiple secondary columns, we need to melt the dataframe
+            id_vars = ['field', 'id', 'value']
+            field_df = field_df.melt(
+                id_vars=id_vars, value_vars=field_df.columns.difference(id_vars), 
+                var_name="secondary_name", value_name="secondary_value"
+            ).dropna(subset=["value"])
+            
+            column_order = ['secondary_name', 'secondary_value', 'field', 'id', 'value']
+            field_df = field_df[column_order]
+
+            data.append(field_df)
+
+        df = pandas.concat(data)
+        df = df[id_vars]
         return self.cast_columns(df, fields)
 
     def bdp(
@@ -1130,23 +1154,12 @@ class BlpParser:
         The purpose of this method is to standardize a BQL (Bloomberg Query Language) response. 
         BQL responses differ from standard responses, hence the need for cleanup to make them more consistent.
         """
-        
-        # Rename 'eventTypeName' to 'eventType' for consistency with other response types.
-        response["eventType"] = response["eventTypeName"]
-        del response["eventTypeName"]
-
         aux = json.loads(response["message"]["element"])
 
-        # BQL responses represent error differently. In standard responses, an error is present only if 
-        # 'responseError' is in response["message"]["element"][rtype]. In BQL responses, an error is not present 
-        # if 'responseExceptions' is an empty list. To standardize this, we move 'responseExceptions' to 
-        # 'responseError' if 'responseExceptions' is not empty.
         if aux["responseExceptions"]:
             aux["responseError"] = aux["responseExceptions"][0]["message"]
             del aux["responseExceptions"]
 
-        # In standard responses, the response type is present in list(response["message"]["element"].keys())[0]. 
-        # Since BQL does not return a response type as a key, we manually add 'BQLResponse' as the response type.
         response["message"]["element"] = {'BQLResponse': aux}
 
         return response
@@ -1393,6 +1406,8 @@ class BlpParser:
             sec_data_parser = self._parse_tick_security_data
         elif rtype == "BeqsResponse":
             sec_data_parser = self._parse_equity_screening_data
+        elif rtype == "BQLResponse":
+            sec_data_parser = self._parse_bql_data
         elif rtype == "fieldResponse":
             sec_data_parser = self._parse_field_info_data
         elif rtype == "InstrumentListResponse":
@@ -1406,6 +1421,7 @@ class BlpParser:
                 "IntradayBarResponse",
                 "IntradayTickResponse",
                 "BeqsResponse",
+                "BQLResponse",
                 "fieldResponse",
                 "InstrumentListResponse",
                 "GetFillsResponse",
@@ -1504,6 +1520,25 @@ class BlpParser:
             yield result
 
     @staticmethod
+    def _parse_bql_data(response, _):
+        rtype = list(response["message"]["element"].keys())[0]
+        response_data = response["message"]["element"][rtype]["results"]
+
+        for field in response_data.values():
+            # ID column may be a security ticker
+            field_data = {    
+                "field": field["name"],
+                "id": field["idColumn"]["values"],
+                "value": field["valuesColumn"]["values"]
+            }
+
+            # Secondary columns may be DATE or CURRENCY, for example
+            for secondary_column in field["secondaryColumns"]:
+                field_data[secondary_column["name"]] = secondary_column["values"]
+
+            yield field_data
+
+    @staticmethod
     def _parse_field_info_data(response, request_data):
         rtype = "fieldResponse"
         field_data = response["message"]["element"][rtype]
@@ -1588,7 +1623,9 @@ def create_query(request_type: str, values: Dict, overrides: Optional[Sequence] 
     return request_dict
 
 def create_bql_query(
-    expression: str, 
+    expression: str,
+    overrides: Optional[Sequence] = None,
+    options: Optional[Dict] = None,
 ) -> Dict:
     """Create a sendQuery dictionary request.
 
@@ -1597,7 +1634,10 @@ def create_bql_query(
 
     Returns: A dictionary representation of a blpapi.Request
     """
-    return create_query("sendQuery", {"expression": expression})
+    values = {"expression": expression}
+    if options:
+        values.update(options)
+    return create_query("sendQuery", values, overrides)
 
 
 def create_eqs_query(
@@ -1799,6 +1839,32 @@ def create_instrument_list_query(values: Optional[Dict] = None) -> Dict:
     return create_query("instrumentListRequest", values)
 
 #%%
+bquery = BlpQuery().start()
+
+bquery.bql("get( px_last() ) for( 'AZUL4 BZ Equity' )")
+
+#%%
+timeout = 10
+parse = BlpParser(processor_steps = [BlpParser._clean_bql_response, BlpParser._validate_bql_event, BlpParser._validate_response_error])
+request_data = create_query("sendQuery", {"expression": "get( px_last() ) for( 'AZUL4 BZ Equity' )"})
+collector = False
+bquery = BlpQuery().start()
+
+if timeout is None:
+    timeout = bquery.timeout
+if parse is False:
+    parse = bquery._pass_through
+elif parse is None:
+    parse = bquery.parser
+data_queue = blpapi.EventQueue()
+request = bquery.create_request(request_data)
+bquery.send_request(request, data_queue)
+res = (parse(data, request_data) for data in bquery.get_response(data_queue, timeout))
+res = itertools.chain.from_iterable(res)  # type: ignore
+if collector:
+    res = collector(res)
+
+#%%
 #query = create_query("sendQuery", {"expression": "get( PX_LAST(start = -3D), CUR_MKT_CAP, PX_TO_BOOK_RATIO ) for( ['IBM US Equity', 'AAPL US Equity', 'AZUL4 BZ Equity'] )"})
 #query = create_query("sendQuery", {"expression": "get( id(), px_last(start=-3D) ) for( members('IBOV Index') )"})
 query = create_query("sendQuery", {"expression": "get( px_last() ) for( 'AZUL4 BZ Equity' )"})
@@ -1806,7 +1872,13 @@ query = create_query("sendQuery", {"expression": "get( px_last() ) for( 'AZUL4 B
 
 bquery = BlpQuery().start()
 
-parser = BlpParser(processor_steps = [BlpParser._clean_bql_response, BlpParser._validate_event, BlpParser._validate_response_error])
+parser = BlpParser(
+    processor_steps = [
+        BlpParser._clean_bql_response, 
+        BlpParser._validate_event, 
+        BlpParser._validate_response_error
+    ]
+)
 
 res2 = bquery.query(query, parse=parser, collector=list)
 
