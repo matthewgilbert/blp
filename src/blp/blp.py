@@ -480,7 +480,6 @@ def dict_to_req(request: blpapi.Request, request_data: Dict) -> blpapi.Request:
 
 
 class BlpQuery(BlpSession):
-
     _SERVICES = {
         "HistoricalDataRequest": "//blp/refdata",
         "ReferenceDataRequest": "//blp/refdata",
@@ -822,9 +821,7 @@ class BlpQuery(BlpSession):
         query = create_eqs_query(screen_name, screen_type, overrides, options)
         df = self.query(query, self.parser, self.collect_to_beqs)
         columns = ["security"] + [col for col in df.columns if col != "security"]
-        df = (
-            df.sort_values("security").reset_index(drop=True).loc[:, columns]
-        )  # Ticker = security
+        df = df.sort_values("security").reset_index(drop=True).loc[:, columns]  # Ticker = security
         return df
 
     def collect_to_beqs(self, responses: Iterable) -> pandas.DataFrame:
@@ -839,7 +836,7 @@ class BlpQuery(BlpSession):
             rows.append(data)
         df = pandas.DataFrame(rows)
         return self.cast_columns(df, fields)
-    
+
     def bql(
         self,
         expression: str,
@@ -858,44 +855,45 @@ class BlpQuery(BlpSession):
         query = create_bql_query(expression, overrides, options)
 
         bql_parser = BlpParser(
-            processor_steps = [
-                BlpParser._clean_bql_response, 
-                BlpParser._validate_event, 
-                BlpParser._validate_response_error
+            processor_steps=[
+                BlpParser._clean_bql_response,
+                BlpParser._validate_event,
+                BlpParser._validate_response_error,
             ]
         )
 
         df = self.query(query, bql_parser, self.collect_to_bql)
 
-        df = df[['id', 'field', 'secondary_name', 'secondary_value', 'value']]
+        df = df[["id", "field", "secondary_name", "secondary_value", "value"]]
 
-        df = df.rename(columns={'id': 'security'})
+        df = df.rename(columns={"id": "security"})
 
         return df
-
 
     def collect_to_bql(self, responses: Iterable) -> pandas.DataFrame:
         """Collector for bql()."""
         data = []
-        fields = {'secondary_name', 'secondary_value', 'field', 'id', 'value'}
+        fields = {"secondary_name", "secondary_value", "field", "id", "value"}
         for field in responses:
             field_df = pandas.DataFrame(field)
 
-            id_vars = ['field', 'id', 'value']
+            id_vars = ["field", "id", "value"]
             secondary_columns = field_df.columns.difference(id_vars)
 
             if len(secondary_columns) == 0:
                 # If we dont have any secondary columns, we just add empty columns
-                field_df['secondary_name'] = None
-                field_df['secondary_value'] = None
+                field_df["secondary_name"] = None
+                field_df["secondary_value"] = None
             else:
                 # If we have multiple secondary columns, we need to melt the dataframe
                 field_df = field_df.melt(
-                    id_vars=id_vars, value_vars=field_df.columns.difference(id_vars), 
-                    var_name="secondary_name", value_name="secondary_value"
+                    id_vars=id_vars,
+                    value_vars=field_df.columns.difference(id_vars),
+                    var_name="secondary_name",
+                    value_name="secondary_value",
                 )
-            
-            column_order = ['secondary_name', 'secondary_value', 'field', 'id', 'value']
+
+            column_order = ["secondary_name", "secondary_value", "field", "id", "value"]
             field_df = field_df[column_order]
 
             data.append(field_df)
@@ -1138,7 +1136,6 @@ class BlpParser:
     """
 
     def __init__(self, processor_steps: Optional[Sequence] = None, raise_security_errors: bool = True):
-
         if processor_steps is None and raise_security_errors:
             processor_steps = [
                 self._validate_event,
@@ -1160,7 +1157,7 @@ class BlpParser:
     @staticmethod
     def _clean_bql_response(response, _):
         """
-        The purpose of this method is to standardize a BQL (Bloomberg Query Language) response. 
+        The purpose of this method is to standardize a BQL (Bloomberg Query Language) response.
         BQL responses differ from standard responses, hence the need for cleanup to make them more consistent.
         """
         aux = json.loads(response["message"]["element"])
@@ -1169,7 +1166,7 @@ class BlpParser:
             aux["responseError"] = aux["responseExceptions"][0]["message"]
             del aux["responseExceptions"]
 
-        response["message"]["element"] = {'BQLResponse': aux}
+        response["message"]["element"] = {"BQLResponse": aux}
 
         return response
 
@@ -1535,10 +1532,10 @@ class BlpParser:
 
         for field in response_data.values():
             # ID column may be a security ticker
-            field_data = {    
+            field_data = {
                 "field": field["name"],
                 "id": field["idColumn"]["values"],
-                "value": field["valuesColumn"]["values"]
+                "value": field["valuesColumn"]["values"],
             }
 
             # Secondary columns may be DATE or CURRENCY, for example
@@ -1630,6 +1627,7 @@ def create_query(request_type: str, values: Dict, overrides: Optional[Sequence] 
             ovrds.append({"overrides": {"fieldId": field, "value": value}})
         request_dict[request_type]["overrides"] = ovrds
     return request_dict
+
 
 def create_bql_query(
     expression: str,
