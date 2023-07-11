@@ -868,22 +868,33 @@ class BlpQuery(BlpSession):
 
         df = self.query(query, bql_parser, self.collect_to_bql)
 
+        df = df[['id', 'field', 'secondary_name', 'secondary_value', 'value']]
+
+        df = df.rename(columns={'id': 'security'})
+
         return df
 
 
     def collect_to_bql(self, responses: Iterable) -> pandas.DataFrame:
         """Collector for bql()."""
         data = []
-        fields = {'field', 'id', 'value'}
+        fields = {'secondary_name', 'secondary_value', 'field', 'id', 'value'}
         for field in responses:
             field_df = pandas.DataFrame(field)
 
-            # Since we have multiple secondary columns, we need to melt the dataframe
             id_vars = ['field', 'id', 'value']
-            field_df = field_df.melt(
-                id_vars=id_vars, value_vars=field_df.columns.difference(id_vars), 
-                var_name="secondary_name", value_name="secondary_value"
-            ).dropna(subset=["value"])
+            secondary_columns = field_df.columns.difference(id_vars)
+
+            if len(secondary_columns) == 0:
+                # If we dont have any secondary columns, we just add empty columns
+                field_df['secondary_name'] = None
+                field_df['secondary_value'] = None
+            else:
+                # If we have multiple secondary columns, we need to melt the dataframe
+                field_df = field_df.melt(
+                    id_vars=id_vars, value_vars=field_df.columns.difference(id_vars), 
+                    var_name="secondary_name", value_name="secondary_value"
+                )
             
             column_order = ['secondary_name', 'secondary_value', 'field', 'id', 'value']
             field_df = field_df[column_order]
@@ -891,7 +902,6 @@ class BlpQuery(BlpSession):
             data.append(field_df)
 
         df = pandas.concat(data)
-        df = df[id_vars]
         return self.cast_columns(df, fields)
 
     def bdp(
@@ -1841,7 +1851,7 @@ def create_instrument_list_query(values: Optional[Dict] = None) -> Dict:
 #%%
 bquery = BlpQuery().start()
 
-bquery.bql("get( px_last() ) for( 'AZUL4 BZ Equity' )")
+bquery.bql("get(px_last(start=-3D), gics_sector_name()) for('AZUL4 BZ Equity')")
 
 #%%
 timeout = 10
@@ -1867,7 +1877,7 @@ if collector:
 #%%
 #query = create_query("sendQuery", {"expression": "get( PX_LAST(start = -3D), CUR_MKT_CAP, PX_TO_BOOK_RATIO ) for( ['IBM US Equity', 'AAPL US Equity', 'AZUL4 BZ Equity'] )"})
 #query = create_query("sendQuery", {"expression": "get( id(), px_last(start=-3D) ) for( members('IBOV Index') )"})
-query = create_query("sendQuery", {"expression": "get( px_last() ) for( 'AZUL4 BZ Equity' )"})
+query = create_query("sendQuery", {"expression": "get(px_last(start=-3D), gics_sector_name()) for('AZUL4 BZ Equity')"})
 #query = create_query("sendQuery", {"expression": "BQL()"})
 
 bquery = BlpQuery().start()
@@ -1907,7 +1917,7 @@ bquery = BlpQuery().start()
 
 query = create_query(
     "sendQuery", 
-    {"expression": "BQL(get( PX_LAST(start = -3D), CUR_MKT_CAP, PX_TO_BOOK_RATIO ) for( ['IBM US Equity', 'AAPL US Equity', 'AZUL4 BZ Equity'] ))"}
+    {"expression": "get(px_last(), gics_sector_name()) for('AZUL4 BZ Equity')"}
 )
 
 res = bquery.query(query, parse=False, collector=list)
