@@ -480,6 +480,7 @@ def dict_to_req(request: blpapi.Request, request_data: Dict) -> blpapi.Request:
 
 
 class BlpQuery(BlpSession):
+
     _SERVICES = {
         "HistoricalDataRequest": "//blp/refdata",
         "ReferenceDataRequest": "//blp/refdata",
@@ -1545,6 +1546,42 @@ class BlpParser:
             yield field_data
 
     @staticmethod
+    def _parse_equity_screening_data(response, _):
+        rtype = list(response["message"]["element"].keys())[0]
+        response_data = response["message"]["element"][rtype]["data"]
+        fields = list(response_data["fieldDisplayUnits"]["fieldDisplayUnits"].keys())
+
+        for sec_data in response_data["securityData"]:
+            result = {
+                "security": sec_data["securityData"]["security"],
+                "fields": fields,
+                "data": sec_data["securityData"]["fieldData"]["fieldData"],
+            }
+            yield result
+
+    @staticmethod
+<<<<<<< HEAD
+    def _parse_bql_data(response, _):
+        rtype = list(response["message"]["element"].keys())[0]
+        response_data = response["message"]["element"][rtype]["results"]
+
+        for field in response_data.values():
+            # ID column may be a security ticker
+            field_data = {
+                "field": field["name"],
+                "id": field["idColumn"]["values"],
+                "value": field["valuesColumn"]["values"],
+            }
+
+            # Secondary columns may be DATE or CURRENCY, for example
+            for secondary_column in field["secondaryColumns"]:
+                field_data[secondary_column["name"]] = secondary_column["values"]
+
+            yield field_data
+
+    @staticmethod
+=======
+>>>>>>> cd3c8f2c20e1d4bd69b7e627e7b5f3afcf06e468
     def _parse_field_info_data(response, request_data):
         rtype = "fieldResponse"
         field_data = response["message"]["element"][rtype]
