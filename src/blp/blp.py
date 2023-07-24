@@ -850,7 +850,18 @@ class BlpQuery(BlpSession):
             overrides: List of tuples containing the field to override and its value
             options: key value pairs to to set in request
 
-        Returns: A pandas.DataFrame with columns ['field', 'id', 'value']
+        Returns: A pandas.DataFrame with columns ["id", "field", "secondary_name", "secondary_value", "value"]
+
+        Examples:
+            >>> bquery = blp.BlpQuery().start()
+            >>> bquery.bql(expression="get(px_last()) for(['AAPL US Equity', 'IBM US Equity'])")
+
+            The resulting DataFrame will look like this:
+                security         field  secondary_name              secondary_value        value
+            0  AAPL US Equity  px_last()  CURRENCY           USD                          192.755005
+            1  IBM US Equity   px_last()  CURRENCY           USD                          139.289993
+            2  AAPL US Equity  px_last()  DATE               2023-07-24T00:00:00Z            192.755005
+            3  IBM US Equity   px_last()  DATE               2023-07-24T00:00:00Z            139.289993
         """
         query = create_bql_query(expression, overrides, options)
 
