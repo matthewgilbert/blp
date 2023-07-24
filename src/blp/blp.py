@@ -851,7 +851,7 @@ class BlpQuery(BlpSession):
             overrides: List of tuples containing the field to override and its value
             options: key value pairs to to set in request
 
-        Returns: A pandas.DataFrame with columns ["id", "field", "secondary_name", "secondary_value", "value"]
+        Returns: A pandas.DataFrame with columns ["security", "field", "secondary_name", "secondary_value", "value"]
 
         Examples:
             >>> bquery = blp.BlpQuery().start()
