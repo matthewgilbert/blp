@@ -480,6 +480,7 @@ def dict_to_req(request: blpapi.Request, request_data: Dict) -> blpapi.Request:
 
 
 class BlpQuery(BlpSession):
+
     _SERVICES = {
         "HistoricalDataRequest": "//blp/refdata",
         "ReferenceDataRequest": "//blp/refdata",
