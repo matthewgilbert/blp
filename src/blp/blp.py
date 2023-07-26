@@ -1,11 +1,11 @@
 import datetime
 import itertools
+import json
 import logging
 import queue
 import threading
 from numbers import Number
 from typing import Any, Callable, Dict, Generator, Iterable, List, Optional, Sequence, Union
-import json
 
 import blpapi
 import pandas
@@ -480,7 +480,6 @@ def dict_to_req(request: blpapi.Request, request_data: Dict) -> blpapi.Request:
 
 
 class BlpQuery(BlpSession):
-
     _SERVICES = {
         "HistoricalDataRequest": "//blp/refdata",
         "ReferenceDataRequest": "//blp/refdata",
@@ -569,7 +568,7 @@ class BlpQuery(BlpSession):
         request_data: Dict,
         parse: Optional[Callable] = None,
         collector: Optional[Callable] = None,
-        timeout: int = None,
+        timeout: Optional[int] = None,
     ):
         """Request and parse Bloomberg data.
 
@@ -854,15 +853,15 @@ class BlpQuery(BlpSession):
         Returns: A pandas.DataFrame with columns ["security", "field", "secondary_name", "secondary_value", "value"]
 
         Examples:
-            >>> bquery = blp.BlpQuery().start()
-            >>> bquery.bql(expression="get(px_last()) for(['AAPL US Equity', 'IBM US Equity'])")
+            >>> bquery = blp.BlpQuery().start() # doctest: +SKIP
+            >>> bquery.bql(expression="get(px_last()) for(['AAPL US Equity', 'IBM US Equity'])") # doctest: +SKIP
 
             The resulting DataFrame will look like this:
-                security         field  secondary_name              secondary_value        value
-            0  AAPL US Equity  px_last()  CURRENCY           USD                          192.755005
-            1  IBM US Equity   px_last()  CURRENCY           USD                          139.289993
-            2  AAPL US Equity  px_last()  DATE               2023-07-24T00:00:00Z            192.755005
-            3  IBM US Equity   px_last()  DATE               2023-07-24T00:00:00Z            139.289993
+                     security      field  secondary_name       secondary_value        value
+            0  AAPL US Equity  px_last()        CURRENCY                   USD   192.755005
+            1  IBM US Equity   px_last()        CURRENCY                   USD   139.289993
+            2  AAPL US Equity  px_last()            DATE  2023-07-24T00:00:00Z   192.755005
+            3  IBM US Equity   px_last()            DATE  2023-07-24T00:00:00Z   139.289993
         """
         query = create_bql_query(expression, overrides, options)
 
