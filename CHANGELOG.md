@@ -1,5 +1,30 @@
 # Changelog
 
+## [v0.0.3](https://github.com/matthewgilbert/blp/tree/v0.0.3) (2023-10-22)
+
+[Full Changelog](https://github.com/matthewgilbert/blp/compare/v0.0.2...v0.0.3)
+
+**Implemented enhancements:**
+
+- Support for BeqsRequest [\#25](https://github.com/matthewgilbert/blp/issues/25)
+- BQL Feature Enhancement Request  [\#18](https://github.com/matthewgilbert/blp/issues/18)
+
+**Fixed bugs:**
+
+- Failures on Mypy Unitest Runner  [\#23](https://github.com/matthewgilbert/blp/issues/23)
+- Mypy test failure [\#2](https://github.com/matthewgilbert/blp/issues/2)
+
+**Closed issues:**
+
+- Is there a limit to the number of times BBG will allow you to connect before it refuses the connection? [\#20](https://github.com/matthewgilbert/blp/issues/20)
+- Question [\#19](https://github.com/matthewgilbert/blp/issues/19)
+
+**Merged pull requests:**
+
+- ENH: Fix formatting [\#29](https://github.com/matthewgilbert/blp/pull/29) ([matthewgilbert](https://github.com/matthewgilbert))
+- Add support to BQL queries [\#28](https://github.com/matthewgilbert/blp/pull/28) ([avantgardeam](https://github.com/avantgardeam))
+- add support beqs [\#26](https://github.com/matthewgilbert/blp/pull/26) ([avantgardeam](https://github.com/avantgardeam))
+
 ## [v0.0.2](https://github.com/matthewgilbert/blp/tree/v0.0.2) (2023-02-11)
 
 [Full Changelog](https://github.com/matthewgilbert/blp/compare/v0.0.1...v0.0.2)
