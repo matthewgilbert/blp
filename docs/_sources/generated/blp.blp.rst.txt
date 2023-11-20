@@ -1,7 +1,0 @@
-blp.blp module
-==============
-
-.. automodule:: blp.blp
-   :members:
-   :undoc-members:
-   :show-inheritance:
