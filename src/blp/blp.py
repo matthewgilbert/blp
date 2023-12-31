@@ -850,18 +850,17 @@ class BlpQuery(BlpSession):
             overrides: List of tuples containing the field to override and its value
             options: key value pairs to to set in request
 
-        Returns: A pandas.DataFrame with columns ["security", "field", "secondary_name", "secondary_value", "value"]
+        Returns: A list of pandas.DataFrames with columns ["field", "id", "value"], along with additional secondary columns.
 
         Examples:
             >>> bquery = blp.BlpQuery().start() # doctest: +SKIP
-            >>> bquery.bql(expression="get(px_last()) for(['AAPL US Equity', 'IBM US Equity'])") # doctest: +SKIP
+            >>> result = bquery.bql(expression="get(px_last()) for(['AAPL US Equity', 'IBM US Equity'])") # doctest: +SKIP
+            >>> print(result[0]) # doctest: +SKIP
 
             The resulting DataFrame will look like this:
-                     security      field  secondary_name       secondary_value        value
-            0  AAPL US Equity  px_last()        CURRENCY                   USD   192.755005
-            1  IBM US Equity   px_last()        CURRENCY                   USD   139.289993
-            2  AAPL US Equity  px_last()            DATE  2023-07-24T00:00:00Z   192.755005
-            3  IBM US Equity   px_last()            DATE  2023-07-24T00:00:00Z   139.289993
+                field        id              value         DATE                    CURRENCY
+            0   px_last()    AAPL US Equity   193.050003   2023-12-26T00:00:00Z    USD
+            1   px_last()    IBM US Equity    163.210007   2023-12-26T00:00:00Z    USD
         """
         query = create_bql_query(expression, overrides, options)
 
@@ -873,44 +872,13 @@ class BlpQuery(BlpSession):
             ]
         )
 
-        df = self.query(query, bql_parser, self.collect_to_bql)
+        list_of_dfs = self.query(query, bql_parser, self.collect_to_bql)
 
-        df = df[["id", "field", "secondary_name", "secondary_value", "value"]]
-
-        df = df.rename(columns={"id": "security"})
-
-        return df
+        return list_of_dfs
 
     def collect_to_bql(self, responses: Iterable) -> pandas.DataFrame:
         """Collector for bql()."""
-        data = []
-        fields = {"secondary_name", "secondary_value", "field", "id", "value"}
-        for field in responses:
-            field_df = pandas.DataFrame(field)
-
-            id_vars = ["field", "id", "value"]
-            secondary_columns = field_df.columns.difference(id_vars)
-
-            if len(secondary_columns) == 0:
-                # If we dont have any secondary columns, we just add empty columns
-                field_df["secondary_name"] = None
-                field_df["secondary_value"] = None
-            else:
-                # If we have multiple secondary columns, we need to melt the dataframe
-                field_df = field_df.melt(
-                    id_vars=id_vars,
-                    value_vars=field_df.columns.difference(id_vars),
-                    var_name="secondary_name",
-                    value_name="secondary_value",
-                )
-
-            column_order = ["secondary_name", "secondary_value", "field", "id", "value"]
-            field_df = field_df[column_order]
-
-            data.append(field_df)
-
-        df = pandas.concat(data)
-        return self.cast_columns(df, fields)
+        return [pandas.DataFrame(field) for field in responses]
 
     def bdp(
         self,
