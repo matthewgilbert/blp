@@ -861,7 +861,7 @@ class BlpQuery(BlpSession):
                 field        id              value         DATE                    CURRENCY
             0   px_last()    AAPL US Equity   193.050003   2023-12-26T00:00:00Z    USD
             1   px_last()    IBM US Equity    163.210007   2023-12-26T00:00:00Z    USD
-        """
+        """  # noqa: E501
         query = create_bql_query(expression, overrides, options)
 
         bql_parser = BlpParser(
