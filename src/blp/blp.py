@@ -1,5 +1,6 @@
 import datetime
 import itertools
+import os
 import json
 import logging
 import queue
@@ -45,7 +46,7 @@ logger = logging.getLogger(__name__)
 
 
 class BlpSession:
-    def __init__(self, event_handler: Optional[Callable], host: str, port: int, app: Optional[str] = None, **kwargs):
+    def __init__(self, event_handler: Optional[Callable], host: str, port: int, app: Optional[str] = None, tls_pk12_fpath: Optional[str] = None, tls_pk7_path: Optional[str] = None, tls_password: Optional[str] = None, **kwargs):
         """Manage a Bloomberg session.
 
         A BlpSession is used for managing the lifecycle of a connection to a blpapi.Session. This includes managing
@@ -55,12 +56,15 @@ class BlpSession:
             event_handler: Event handler, if None this session is synchronous. See blpapi.Session.
             host: Host to connect session on
             port: Port to connect session to
-            app: The app to use for the session identity
+            app: The app to use for the session identity, optional
+            tls_pk12_fpath: folder path to pk12 file, optional
+            tls_pk7_path: folder path to pk7 file, optional
+            tls_password: password for the TLS certificate, optional
             **kwargs: Keyword arguments used in blpapi.SessionOptions
 
         """
         self.event_handler = event_handler
-        self.session_options = self.create_session_options(host, port, app=app, **kwargs)
+        self.session_options = self.create_session_options(host, port, app=app, tls_pk12_fpath=tls_pk12_fpath, tls_pk7_path=tls_pk7_path, tls_password=tls_password, **kwargs)
         if event_handler:
             self.session = blpapi.Session(options=self.session_options, eventHandler=event_handler)
         else:
@@ -77,13 +81,16 @@ class BlpSession:
         )
 
     @staticmethod
-    def create_session_options(host: str, port: int, app: Optional[str] = None, **kwargs) -> blpapi.SessionOptions:
+    def create_session_options(host: str, port: int, app: Optional[str] = None, tls_pk12_fpath: Optional[str] = None, tls_pk7_path: Optional[str] = None, tls_password: Optional[str] = None, **kwargs) -> blpapi.SessionOptions:
         """Create blpapi.SessionOptions class used in blpapi.Session.
 
         Args:
             host: Host to connect session on
             port: Port to connection session to
-            app: The app to use for the session identity
+            app: The app to use for the session identity, optional
+            tls_pk12_fpath: folder path to pk12 file, optional
+            tls_pk7_path: folder path to pk7 file, optional
+            tls_password: password for the TLS certificate, optional
             **kwargs: Keyword args passed to the blpapi.SessionOpts, if authentication is needed use
                 setAuthenticationOptions
 
@@ -100,6 +107,16 @@ class BlpSession:
         kwargs.setdefault("setAutoRestartOnDisconnection", True)
         kwargs.setdefault("setNumStartAttempts", 1)
         kwargs.setdefault("setRecordSubscriptionDataReceiveTimes", True)
+
+        # set tls record if being passed in
+        if tls_password and tls_pk7_path and tls_pk12_fpath:
+            tls_options = blpapi.TlsOptions.createFromFiles(
+                tls_pk12_fpath,
+                tls_password,
+                tls_pk7_path
+            )
+            kwargs["setTlsOptions"] = tls_options
+
         for key in kwargs:
             getattr(session_options, key)(kwargs[key])
         return session_options
@@ -500,6 +517,10 @@ class BlpQuery(BlpSession):
         timeout: int = 10000,
         parser: Optional[Callable] = None,
         field_column_map: Optional[Dict[str, Callable]] = None,
+        app=None,
+        tls_pk12_fpath=None,
+        tls_pk7_path=None,
+        tls_password=None,
         **kwargs,
     ):
         """A class to manage a synchronous Bloomberg request/response session.
@@ -511,6 +532,10 @@ class BlpQuery(BlpSession):
             parser: Callable which parses response and request_data
             field_column_map: A map from bloomberg field name to a callable. It is used by the collectors to ensure
               the correct data type. If a field is missing from the map the default pandas type inference is used.
+            app: app name to be included in authentication, optional
+            tls_pk12_fpath: folder path to pk12 file, optional
+            tls_pk7_path: folder path to pk7 file, optional
+            tls_password: password for the TLS certificate, optional
             **kwargs: Keyword arguments used in blpapi.SessionOptions
 
         Examples:
@@ -529,7 +554,7 @@ class BlpQuery(BlpSession):
         self._started = False
         self._services: Dict[str, blpapi.Service] = {}
         self.timeout = timeout
-        super().__init__(event_handler, host, port, **kwargs)
+        super().__init__(event_handler, host, port, app, tls_pk12_fpath, tls_pk7_fpath, tls_password, **kwargs)
 
     def __enter__(self):
         self.start()
