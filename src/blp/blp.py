@@ -874,7 +874,7 @@ class BlpQuery(BlpSession):
 
         list_of_dfs = self.query(query, bql_parser, self.collect_to_bql)
 
-        return list_of_dfs # type:ignore
+        return list_of_dfs  # type:ignore
 
     def collect_to_bql(self, responses: Iterable) -> List[pandas.DataFrame]:
         """Collector for bql()."""
