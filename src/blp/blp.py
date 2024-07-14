@@ -842,7 +842,7 @@ class BlpQuery(BlpSession):
         expression: str,
         overrides: Optional[Sequence] = None,
         options: Optional[Dict] = None,
-    ) -> pandas.DataFrame:
+    ) -> List[pandas.DataFrame]:
         """Bloomberg query language request.
 
         Args:
@@ -874,9 +874,9 @@ class BlpQuery(BlpSession):
 
         list_of_dfs = self.query(query, bql_parser, self.collect_to_bql)
 
-        return list_of_dfs
+        return list_of_dfs # type:ignore
 
-    def collect_to_bql(self, responses: Iterable) -> pandas.DataFrame:
+    def collect_to_bql(self, responses: Iterable) -> List[pandas.DataFrame]:
         """Collector for bql()."""
         return [pandas.DataFrame(field) for field in responses]
 
