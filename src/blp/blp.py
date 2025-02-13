@@ -123,7 +123,7 @@ class BlpSession:
                 auth_request.set("token", msg.getElementAsString("token"))
                 identity = self.session.createIdentity()
                 logger.info(f"Send authorization request\n{auth_request}")
-                self.session.sendAuthorizationRequest(auth_request, identity)
+                self.session.sendAuthorizationRequest(auth_request, identity, eventQueue=token_event_queue)
             elif msg.messageType() == _TOKEN_FAILURE:
                 raise ConnectionError(f"TOKEN_STATUS - Message {n} - {msg}")
 
