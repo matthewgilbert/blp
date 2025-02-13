@@ -491,6 +491,7 @@ class BlpQuery(BlpSession):
         "instrumentListRequest": "//blp/instruments",
         "GetFills": "//blp/emsx.history",
         "sendQuery": "//blp/bqlsvc",
+        "auth": "//blp/apiauth",
     }
 
     def __init__(
