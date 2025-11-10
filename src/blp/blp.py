@@ -1621,7 +1621,7 @@ def create_bql_query(
 
     Returns: A dictionary representation of a blpapi.Request
     """
-    values = {"expression": expression}
+    values = {"expression": expression, "clientContext": {"appName": "EXCEL"}}
     if options:
         values.update(options)
     return create_query("sendQuery", values, overrides)
