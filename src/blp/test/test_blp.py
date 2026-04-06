@@ -2,12 +2,12 @@ import copy
 import datetime
 import itertools
 import queue
+import zoneinfo
 
 import blpapi
 import numpy
 import pandas
 import pytest
-import pytz
 from pandas import Timestamp as TS
 from pandas.testing import assert_frame_equal, assert_series_equal
 
@@ -131,7 +131,7 @@ def bcon(request):
 
 def is_not_market_hours(now=None):
     if not now:
-        now = datetime.datetime.now(tz=pytz.timezone("America/New_York"))
+        now = datetime.datetime.now(tz=zoneinfo.ZoneInfo("America/New_York"))
 
     friday, sunday = (4, 6)
     day_seconds = 24 * 60 * 60
