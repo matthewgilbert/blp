@@ -1,5 +1,29 @@
 # Changelog
 
+## [v0.0.4](https://github.com/matthewgilbert/blp/tree/v0.0.4) (2026-04-07)
+
+[Full Changelog](https://github.com/matthewgilbert/blp/compare/v0.0.3...v0.0.4)
+
+**Closed issues:**
+
+- Geting `eidData` from reponse [\#54](https://github.com/matthewgilbert/blp/issues/54)
+- bql\(\)'s typing annotation no longer reflects its behavior [\#43](https://github.com/matthewgilbert/blp/issues/43)
+- conda-forge package out-dated [\#39](https://github.com/matthewgilbert/blp/issues/39)
+- Missing Reference to Quickstart [\#34](https://github.com/matthewgilbert/blp/issues/34)
+- Add BQL and EQS Query Examples to blp Quickstart Guide [\#31](https://github.com/matthewgilbert/blp/issues/31)
+- BQL query output format [\#30](https://github.com/matthewgilbert/blp/issues/30)
+
+**Merged pull requests:**
+
+- Fix compatibility with pandas 3 [\#58](https://github.com/matthewgilbert/blp/pull/58) ([eltoder](https://github.com/eltoder))
+- Fix for BQL issue \#55, \#56 [\#57](https://github.com/matthewgilbert/blp/pull/57) ([butterflywaltz](https://github.com/butterflywaltz))
+- Fix/Add Token Auth Support [\#52](https://github.com/matthewgilbert/blp/pull/52) ([rroberts-capula](https://github.com/rroberts-capula))
+- fix type annotations of bql-related functions [\#44](https://github.com/matthewgilbert/blp/pull/44) ([pierreMizrahi](https://github.com/pierreMizrahi))
+- BUG: Fix black formatting [\#37](https://github.com/matthewgilbert/blp/pull/37) ([matthewgilbert](https://github.com/matthewgilbert))
+- Refactor `bquery.bql` method so a list is returned [\#36](https://github.com/matthewgilbert/blp/pull/36) ([avantgardeam](https://github.com/avantgardeam))
+- Add `.ipynb` Documentation [\#35](https://github.com/matthewgilbert/blp/pull/35) ([avantgardeam](https://github.com/avantgardeam))
+- Enhancements to Quickstart Documentation  [\#33](https://github.com/matthewgilbert/blp/pull/33) ([avantgardeam](https://github.com/avantgardeam))
+
 ## [v0.0.3](https://github.com/matthewgilbert/blp/tree/v0.0.3) (2023-10-22)
 
 [Full Changelog](https://github.com/matthewgilbert/blp/compare/v0.0.2...v0.0.3)
