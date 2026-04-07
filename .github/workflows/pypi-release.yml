@@ -10,9 +10,18 @@ jobs:
     if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          environment-file: environment.yml
+          activate-environment: blp-dev
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.0
+      - name: Environment setup
+        run: |
+          gem install github_changelog_generator
+          git config --global user.email "2401026+matthewgilbert@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
       - name: Build package
         run: python -m build --sdist --wheel --outdir dist/
       - name: Publish to PyPI
