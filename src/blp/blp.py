@@ -9,7 +9,6 @@ from typing import Any, Callable, Dict, Generator, Iterable, List, Optional, Seq
 
 import blpapi
 import pandas
-import pytz
 
 BBG_MONTH_MAP = dict(zip("FGHJKMNQUVXZ", range(1, 13)))
 MONTH_BBG_MAP = {v: k for k, v in BBG_MONTH_MAP.items()}
@@ -353,7 +352,8 @@ class EventHandler:
 def datetime_converter(value: Union[str, datetime.date, datetime.datetime]) -> pandas.Timestamp:
     ts = pandas.Timestamp(value)
     if ts.tz:
-        ts = ts.tz_convert(pytz.FixedOffset(ts.tz.getOffsetInMinutes()))
+        offset = datetime.timedelta(minutes=ts.tz.getOffsetInMinutes())
+        ts = ts.tz_convert(datetime.timezone(offset))
     return ts
 
 
